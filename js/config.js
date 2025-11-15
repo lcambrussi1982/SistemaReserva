@@ -41,9 +41,9 @@ const turmas = [
   { id: "3E", nome: "3º E", turno: "MANHA" },
 ];
 
-/* ===========================================
-   2) DISCIPLINAS do Ensino Médio
-   =========================================== */
+/* ==========================
+   2) DISCIPLINAS EM
+   ========================== */
 
 const disciplinas = [
   // LINGUAGENS
@@ -55,12 +55,12 @@ const disciplinas = [
   // MATEMÁTICA
   { id: "MAT",  nome: "Matemática",        area: "Matemática" },
 
-  // CIÊNCIAS DA NATUREZA
+  // NATUREZA
   { id: "BIO",  nome: "Biologia",          area: "Ciências da Natureza" },
   { id: "FIS",  nome: "Física",            area: "Ciências da Natureza" },
   { id: "QUI",  nome: "Química",           area: "Ciências da Natureza" },
 
-  // CIÊNCIAS HUMANAS
+  // HUMANAS
   { id: "HIS",  nome: "História",          area: "Ciências Humanas" },
   { id: "GEO",  nome: "Geografia",         area: "Ciências Humanas" },
   { id: "SOC",  nome: "Sociologia",        area: "Ciências Humanas" },
@@ -80,7 +80,7 @@ const dispositivos = [
 ];
 
 /* ==========================
-   4) HORÁRIOS (SLOTS)
+   4) HORÁRIOS
    ========================== */
 
 const horarios = [
@@ -94,7 +94,7 @@ const horarios = [
 ];
 
 /* ==========================
-   Helpers (não sobrescrever)
+   Helper (não sobrescrever)
    ========================== */
 
 async function setIfNotExists(col, id, data, label) {
