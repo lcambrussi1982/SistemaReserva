@@ -1,5 +1,5 @@
 // js/firebase-config.js
-// Configuração central do Firebase.
+// Config central do Firebase.
 
 import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-app.js";
 import {
@@ -8,9 +8,19 @@ import {
   collection,
   getDoc,
   setDoc,
+  getDocs,
+  addDoc,
+  query,
+  where,
 } from "https://www.gstatic.com/firebasejs/11.0.0/firebase-firestore.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+} from "https://www.gstatic.com/firebasejs/11.0.0/firebase-auth.js";
 
-// Config do seu projeto
 const firebaseConfig = {
   apiKey: "AIzaSyAAQ92Zl69CHdMyvu22nM36M6ESxJ6BDOM",
   authDomain: "reservacambrussi.firebaseapp.com",
@@ -21,9 +31,26 @@ const firebaseConfig = {
   measurementId: "G-XGFJVQ67SM"
 };
 
-// inicializa app só uma vez
+// garante que só inicializa 1 vez
 const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
 
-// exporta TUDO que os outros arquivos precisam
-export { app, db, doc, collection, getDoc, setDoc };
+// exporta tudo o que os outros arquivos vão usar
+export {
+  app,
+  db,
+  auth,
+  doc,
+  collection,
+  getDoc,
+  setDoc,
+  getDocs,
+  addDoc,
+  query,
+  where,
+  onAuthStateChanged,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+};
