@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Reservas • Colégio Estadual Padre Ponciano</title>
+  <link rel="stylesheet" href="./css/cambrussi.css">
+</head>
+<body>
+  <header class="header">
+    <div class="head-wrap">
+      <div class="brand-side">
+        <div class="logo"><img src="./assets/logo-colegio.svg" alt="Logo"></div>
+        <div class="titles">
+          <div class="brand-title">Colégio Estadual Padre Ponciano</div>
+          <div class="brand-sub">Sistema desenvolvido pela Cambrussi Technologies</div>
+        </div>
+      </div>
+      <div class="userbox" id="userbox"></div>
+    </div>
+    <nav class="navbar">
+      <a href="./index.html">Início</a>
+      <a href="./reservas.html" aria-current="page">Reservas</a>
+      <a href="./dispositivos.html">Dispositivos</a>
+      <a href="./relatorios.html">Relatórios</a>
+      <a href="./cadastros.html" class="only-admin">Cadastros</a>
+      <a href="./admin.html">Admin</a><a href="./admin-users.html">Administradores</a><a href="./tutorial.html">Tutorial</a>
+    </nav>
+  </header>
+
+  <main class="main container">
+    <section class="card">
+      <div class="grid cols-3">
+        <div>
+          <label>Data</label>
+          <input id="dia" class="input" type="date">
+        </div>
+        <div>
+          <label>Tipo de dispositivo</label>
+          <select id="tipoSel" class="input"></select>
+        </div>
+        <div style="align-self:end">
+          <button id="btnAtualizar" class="btn">Atualizar</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Horários</h2>
+      <p class="muted" id="turmaInfo"></p>
+      <p class="muted">Dica: selecione o tipo e toque no horário. O sistema escolhe automaticamente a melhor unidade disponível.</p>
+      <div id="grid" class="grid-horarios"></div>
+    </section>
+
+    <section class="card">
+      <h2>Minhas reservas do dia</h2>
+      <table class="table" id="tbl"></table>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <small>© <span id="y"></span> Colégio Estadual Padre Ponciano • Sistema desenvolvido pela Cambrussi Technologies</small>
+    <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
+  </footer>
+
+  <div class="toast-wrap" id="toasts"></div>
+
+  <script type="module">
+    import { setupShell } from "./js/ui-shell.js";
+    import { requireAuth } from "./js/auth.js";
+    requireAuth(); setupShell();
+  </script>
+  <script type="module" src="./js/app-reservas-por-tipo.js"></script>
+</body>
+</html>

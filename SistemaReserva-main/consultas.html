@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Consultas • Colégio Estadual Padre Ponciano</title>
+  <link rel="stylesheet" href="./css/cambrussi.css">
+</head>
+<body>
+  <header class="header">
+    <div class="head-wrap">
+      <div class="brand-side">
+        <div class="logo"><img src="./assets/logo-colegio.svg" alt="Logo"></div>
+        <div class="titles">
+          <div class="brand-title">Colégio Estadual Padre Ponciano</div>
+          <div class="brand-sub">Sistema desenvolvido pela Cambrussi Technologies</div>
+        </div>
+      </div>
+      <div class="userbox" id="userbox"></div><div class="userbox"><button id="darkToggle" class="btn ghost" style="padding:6px 10px">🌙</button></div>
+    </div>
+    <nav class="navbar">
+      <a href="./index.html">Início</a>
+      <a href="./reservas.html">Reservas</a>
+      <a href="./dispositivos.html">Dispositivos</a>
+      <a href="./relatorios.html">Relatórios</a>
+      <a href="./cadastros.html" class="only-admin">Cadastros</a>
+      <a href="./tutorial.html">Tutorial</a>
+    </nav>
+  </header>
+  <main class="main container">
+    <section class="card">
+      <h2>Consulta rápida de laboratórios</h2>
+      <div class="grid cols-3">
+        <div><label>Data</label><input id="dia" class="input" type="date"></div>
+        <div><label>Laboratório</label><select id="lab" class="input"><option>Laboratório 1</option><option>Laboratório 2</option><option>Laboratório 3</option></select></div>
+        <div style="align-self:end"><button id="btn" class="btn">Ver disponibilidade</button></div>
+      </div>
+    </section>
+    <section class="card" id="saida"></section>
+  </main>
+  <footer class="footer">
+    <small>© <span id="y"></span> Colégio Estadual Padre Ponciano • Sistema desenvolvido pela Cambrussi Technologies</small>
+    <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
+  </footer>
+  <script type="module" src="./js/app-consultas.js"></script>
+
+  <script>
+    // redireciona admin de primeiro acesso para configurar e-mail/senha
+    try{
+      const must = localStorage.getItem('SRE_REQUIRE_ADMIN_SETUP')==='1';
+      const u = JSON.parse(localStorage.getItem('SRE_SESSION')||'null');
+      if(must && u && u.role==='ADMIN' && u.email==='admin'){
+        location.href = 'admin-setup.html';
+      }
+    }catch{}
+  </script>
+
+</body>
+</html>

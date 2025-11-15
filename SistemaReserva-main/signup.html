@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Cadastro de Professor • Colégio Estadual Padre Ponciano</title>
+  <link rel="stylesheet" href="./css/cambrussi.css">
+</head>
+<body>
+  <header class="header">
+    <div class="head-wrap">
+      <div class="brand-side">
+        <div class="logo"><img src="./assets/logo-colegio.svg" alt="Logo"></div>
+        <div class="titles">
+          <div class="brand-title">Colégio Estadual Padre Ponciano</div>
+          <div class="brand-sub">Sistema desenvolvido pela Cambrussi Technologies</div>
+        </div>
+      </div>
+      <div class="userbox" id="userbox"></div><div class="userbox"><button id="darkToggle" class="btn ghost" style="padding:6px 10px">🌙</button></div>
+    </div>
+  </header>
+
+  <main class="main container">
+    <section class="card auth-card">
+      <h2 class="center">Cadastro de Professor</h2>
+      <p class="center muted">Preencha seus dados e selecione suas disciplinas e turmas.</p>
+      <div class="grid cols-1">
+        <label>Nome completo</label>
+        <input id="sNome" class="input" type="text" placeholder="Seu nome">
+        <label>E-mail</label>
+        <input id="sEmail" class="input" type="email" placeholder="ex: voce@escola.com">
+        <label>Senha</label>
+        <input id="sSenha" class="input" type="password" placeholder="crie uma senha">
+        <label>Disciplinas (CTRL para várias)</label>
+        <select id="sDisc" class="input" multiple></select>
+        <label>Turmas (CTRL para várias)</label>
+        <select id="sTurmas" class="input" multiple></select>
+      </div>
+      <div class="center" style="margin-top:12px">
+        <button id="btnSign" class="btn">Criar conta</button>
+      </div>
+      <div id="sMsg" class="center" style="color:var(--err);margin-top:10px"></div>
+      <div class="center" style="margin-top:14px">
+        <img src="./assets/logo-cambrussi.svg" alt="Cambrussi Technologies" style="max-width:200px;opacity:.9"/>
+      </div>
+    </section>
+    <section class="card center"><a class="btn ghost" href="./login.html" rel="noopener">⟵ Voltar ao Login</a></section>
+  </main>
+
+  <footer class="footer">
+    <small>© <span id="y"></span> Colégio Estadual Padre Ponciano • Sistema desenvolvido pela Cambrussi Technologies</small>
+    <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
+  </footer>
+
+  <script type="module" src="./js/app-signup.js"></script>
+</body>
+</html>
