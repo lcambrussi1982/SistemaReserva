@@ -1,68 +1,37 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>cadastros • Colégio Estadual Padre Ponciano</title>
+  <meta charset="utf-8">
+  <title>Cadastros • Colégio Estadual Padre Ponciano</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="./css/cambrussi.css">
 </head>
 <body>
-  
-<header class="header">
-  <div class="head-wrap">
-    <div class="brand-side">
-      <div class="logo"><img src="./assets/logo-colegio.svg" alt="Logo"></div>
-      <div class="titles">
-        <div class="brand-title">Colégio Estadual Padre Ponciano</div>
-        <div class="brand-sub">Sistema desenvolvido pela Cambrussi Technologies • Dados sincronizados na nuvem (Firebase Firestore)</div>
-      </div>
+  <header class="topo">
+    <img src="./img/logo.png" alt="Logo do colégio" class="logo">
+    <div>
+      <h1>Colégio Estadual Padre Ponciano</h1>
+      <p>Sistema desenvolvido pela Cambrussi Technologies • Dados sincronizados na nuvem (Firebase Firestore)</p>
     </div>
-    <div class="userbox" id="userbox"></div><div class="userbox"><button id="darkToggle" class="btn ghost" style="padding:6px 10px">🌙</button></div>
-  </div>
-  <nav class="navbar">
-    <a href='./index.html' >Início</a>
-    <a href='./reservas.html' >Reservas</a>
-    <a href='./dispositivos.html' >Dispositivos</a>
-    <a href='./relatorios.html' >Relatórios</a>
-    <a href='./cadastros.html' class='only-admin' aria-current="page">Cadastros</a>
-    <a href='./tutorial.html' >Tutorial</a>
-    </nav>
-</header>
+  </header>
 
-  <main class="main container">
-<section class="card">
-  <h2>Cadastros (Admin)</h2>
-  <p class="muted">Gerencie professores, dispositivos, turmas e disciplinas. Somente administradores.</p>
-  <div class="grid cols-3">
-    <button class="btn" id="tab-prof">Professores</button>
-    <button class="btn" id="tab-dev">Dispositivos</button>
-    <button class="btn" id="tab-outros">Turmas/Disciplinas/Aulas</button>
-  </div>
-</section>
-<section class="card" id="painel"></section>
-</main>
-  
-<footer class="footer">
-  <small>© <span id="y"></span> Colégio Estadual Padre Ponciano • Sistema desenvolvido pela Cambrussi Technologies</small>
-  <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
-</footer>
+  <nav class="menu">
+    <a href="index.html">Início</a>
+    <a href="reservas.html">Reservas</a>
+    <a href="dispositivos.html">Dispositivos</a>
+    <a href="cadastros.html" class="ativo">Cadastros</a>
+    <a href="tutorial.html">Tutorial</a>
+    <a href="login.html" class="direita">Login</a>
+  </nav>
 
-  <script type="module">
-    import { setupShell } from "./js/ui-shell.js";
-    import { requireAuth } from "./js/auth.js";
-    requireAuth(); setupShell();
-  </script>
-  <script type="module" src="./js/app-cadastros.js"></script>
+  <main class="conteudo">
+    <h2>Cadastros (Admin)</h2>
+    <p>Área reservada para administradores. Nesta versão enxuta, os cadastros ainda não foram implementados.</p>
+    <p>Use o login de administrador e acesse a tela de <strong>Dispositivos</strong> para ajustar o inventário.</p>
+  </main>
 
-  <script>
-    // redireciona admin de primeiro acesso para configurar e-mail/senha
-    try{
-      const must = localStorage.getItem('SRE_REQUIRE_ADMIN_SETUP')==='1';
-      const u = JSON.parse(localStorage.getItem('SRE_SESSION')||'null');
-      if(must && u && u.role==='ADMIN' && u.email==='admin'){
-        location.href = 'admin-setup.html';
-      }
-    }catch{}
-  </script>
-
+  <footer class="rodape">
+    © Colégio Estadual Padre Ponciano • Sistema desenvolvido pela Cambrussi Technologies
+  </footer>
 </body>
 </html>

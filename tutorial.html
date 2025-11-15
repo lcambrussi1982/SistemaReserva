@@ -1,85 +1,53 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta charset="utf-8">
   <title>Tutorial • Colégio Estadual Padre Ponciano</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="./css/cambrussi.css">
 </head>
 <body>
-  
-<header class="header">
-  <div class="head-wrap">
-    <div class="brand-side">
-      <div class="logo"><img src="./assets/logo-colegio.svg" alt="Logo"></div>
-      <div class="titles">
-        <div class="brand-title">Colégio Estadual Padre Ponciano</div>
-        <div class="brand-sub">Sistema desenvolvido pela Cambrussi Technologies • Dados sincronizados na nuvem (Firebase Firestore)</div>
-      </div>
+  <header class="topo">
+    <img src="./img/logo.png" alt="Logo do colégio" class="logo">
+    <div>
+      <h1>Colégio Estadual Padre Ponciano</h1>
+      <p>Sistema desenvolvido pela Cambrussi Technologies • Dados sincronizados na nuvem (Firebase Firestore)</p>
     </div>
-    <div class="userbox" id="userbox"></div><div class="userbox"><button id="darkToggle" class="btn ghost" style="padding:6px 10px">🌙</button></div>
-  </div>
-  <nav class="navbar">
-    <a href='./index.html' >Início</a>
-    <a href='./reservas.html' >Reservas</a>
-    <a href='./dispositivos.html' >Dispositivos</a>
-    <a href='./relatorios.html' >Relatórios</a>
-    <a href='./cadastros.html' class='only-admin' >Cadastros</a>
-    <a href='./tutorial.html' aria-current="page">Tutorial</a>
-    </nav>
-</header>
+  </header>
 
-  <main class="main container">
-    <section class="card">
-      <h2>Tutorial (Professores)</h2>
-      <ol>
-        <li>Acesse <b>Login</b> e clique em <b>Cadastrar Professor</b>.</li>
-        <li>Informe <b>nome, e-mail, senha</b>, selecione <b>disciplinas</b> e <b>turmas</b>.</li>
-        <li>Você será redirecionado para <b>Reservas</b> com o <b>grid semanal</b>.</li>
-        <li>Escolha o horário e um dispositivo disponível e clique <b>Reservar</b>.</li>
-        <li>Use <b>Exportar CSV/ICS</b> para baixar suas reservas da semana.</li>
-      </ol>
-    </section>
-    <section class="card">
-      <h2>Tutorial (Administradores)</h2>
-      <ol>
-        <li>Faça login com sua conta de administrador.</li>
-        <li>Abra <b>Cadastros</b> para gerenciar professores e dispositivos.</li>
-        <li>Em <b>Relatórios</b>, gere CSV e faça <b>Backup/Restore</b> do banco.</li>
-        <li>Funcionalidades administrativas não aparecem para professores.</li>
-      </ol>
-    </section>
-    <section class="card">
-      <h2>Tour rápido</h2>
-      <p class="tip">Clique no botão para um tour simples pelos elementos principais.</p>
-      <button id="tour" class="btn">Iniciar tour</button>
-    </section>
-    <section class="card">
-      <h2>Tecnologia</h2>
-      <p>Este sistema sincroniza os dados de reservas e dispositivos com um banco de dados na nuvem.</p>
-      <div style="display:flex;align-items:center;gap:0.75rem;margin-top:0.5rem;flex-wrap:wrap">
-        <img src="./assets/firebase-firestore-badge.svg" alt="Badge Firebase Firestore" style="height:32px">
-        <span class="muted">Camada de persistência local no navegador + snapshot na nuvem via <b>Firebase Firestore</b>.</span>
-      </div>
-    </section>
-  </main
-  
-<footer class="footer">
-  <small>© <span id="y"></span> Colégio Estadual Padre Ponciano • Sistema desenvolvido pela Cambrussi Technologies</small>
-  <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
-</footer>
+  <nav class="menu">
+    <a href="index.html">Início</a>
+    <a href="reservas.html">Reservas</a>
+    <a href="dispositivos.html">Dispositivos</a>
+    <a href="cadastros.html">Cadastros</a>
+    <a href="tutorial.html" class="ativo">Tutorial</a>
+    <a href="login.html" class="direita">Login</a>
+  </nav>
 
-  <script type="module" src="./js/app-tutorial.js"></script>
+  <main class="conteudo">
+    <h2>Tutorial rápido</h2>
 
-  <script>
-    // redireciona admin de primeiro acesso para configurar e-mail/senha
-    try{
-      const must = localStorage.getItem('SRE_REQUIRE_ADMIN_SETUP')==='1';
-      const u = JSON.parse(localStorage.getItem('SRE_SESSION')||'null');
-      if(must && u && u.role==='ADMIN' && u.email==='admin'){
-        location.href = 'admin-setup.html';
-      }
-    }catch{}
-  </script>
+    <h3>Professores</h3>
+    <ol>
+      <li>Acesse a página <strong>Login</strong> e faça seu acesso.</li>
+      <li>Você será redirecionado para <strong>Reservas</strong> com o grid semanal.</li>
+      <li>Escolha a data, o tipo de dispositivo e clique em um horário disponível.</li>
+      <li>Suas reservas do dia aparecem em <strong>Minhas reservas do dia</strong>.</li>
+    </ol>
 
+    <h3>Administradores</h3>
+    <ol>
+      <li>Faça login com uma conta que tenha o campo <code>role = "ADMIN"</code> na coleção <code>usuarios</code>.</li>
+      <li>Abra <strong>Dispositivos</strong> para ajustar o total de tablets e chromebooks.</li>
+      <li>No futuro, a tela de <strong>Cadastros</strong> será usada para professores, disciplinas e turmas.</li>
+    </ol>
+
+    <h3>Tecnologia</h3>
+    <p>Este sistema usa uma camada simples no navegador e salva os dados em um banco de dados na nuvem via Firebase Cloud Firestore.</p>
+  </main>
+
+  <footer class="rodape">
+    © Colégio Estadual Padre Ponciano • Sistema desenvolvido pela Cambrussi Technologies
+  </footer>
 </body>
 </html>

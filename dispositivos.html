@@ -1,62 +1,51 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>dispositivos • Colégio Estadual Padre Ponciano</title>
+  <meta charset="utf-8">
+  <title>Dispositivos • Colégio Estadual Padre Ponciano</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="./css/cambrussi.css">
 </head>
 <body>
-  
-<header class="header">
-  <div class="head-wrap">
-    <div class="brand-side">
-      <div class="logo"><img src="./assets/logo-colegio.svg" alt="Logo"></div>
-      <div class="titles">
-        <div class="brand-title">Colégio Estadual Padre Ponciano</div>
-        <div class="brand-sub">Sistema desenvolvido pela Cambrussi Technologies • Dados sincronizados na nuvem (Firebase Firestore)</div>
-      </div>
+  <header class="topo">
+    <img src="./img/logo.png" alt="Logo do colégio" class="logo">
+    <div>
+      <h1>Colégio Estadual Padre Ponciano</h1>
+      <p>Sistema desenvolvido pela Cambrussi Technologies • Dados sincronizados na nuvem (Firebase Firestore)</p>
     </div>
-    <div class="userbox" id="userbox"></div><div class="userbox"><button id="darkToggle" class="btn ghost" style="padding:6px 10px">🌙</button></div>
-  </div>
-  <nav class="navbar">
-    <a href='./index.html' >Início</a>
-    <a href='./reservas.html' >Reservas</a>
-    <a href='./dispositivos.html' aria-current="page">Dispositivos</a>
-    <a href='./relatorios.html' >Relatórios</a>
-    <a href='./cadastros.html' class='only-admin' >Cadastros</a>
-    <a href='./tutorial.html' >Tutorial</a>
-    </nav>
-</header>
+  </header>
 
-  <main class="main container">
-<section class="card">
-  <h2>Inventário</h2>
-  <table class="table" id="tdevs"></table>
-</section>
-</main>
-  
-<footer class="footer">
-  <small>© <span id="y"></span> Colégio Estadual Padre Ponciano • Sistema desenvolvido pela Cambrussi Technologies</small>
-  <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
-</footer>
+  <nav class="menu">
+    <a href="index.html">Início</a>
+    <a href="reservas.html">Reservas</a>
+    <a href="dispositivos.html" class="ativo">Dispositivos</a>
+    <a href="cadastros.html">Cadastros</a>
+    <a href="tutorial.html">Tutorial</a>
+    <a href="login.html" class="direita">Login</a>
+  </nav>
 
-  <script type="module">
-    import { setupShell } from "./js/ui-shell.js";
-    import { requireAuth } from "./js/auth.js";
-    requireAuth(); setupShell();
-  </script>
-  <script type="module" src="./js/app-dispositivos.js"></script>
+  <main class="conteudo">
+    <h2>Inventário de dispositivos</h2>
+    <p class="dica">Os valores abaixo vêm diretamente da coleção <code>dispositivos</code> do Firestore.</p>
 
-  <script>
-    // redireciona admin de primeiro acesso para configurar e-mail/senha
-    try{
-      const must = localStorage.getItem('SRE_REQUIRE_ADMIN_SETUP')==='1';
-      const u = JSON.parse(localStorage.getItem('SRE_SESSION')||'null');
-      if(must && u && u.role==='ADMIN' && u.email==='admin'){
-        location.href = 'admin-setup.html';
-      }
-    }catch{}
-  </script>
+    <table class="tabela" id="tabelaDispositivos">
+      <thead>
+        <tr>
+          <th>Tipo</th>
+          <th>Total</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- preenchido via JS -->
+      </tbody>
+    </table>
+  </main>
 
+  <footer class="rodape">
+    © Colégio Estadual Padre Ponciano • Sistema desenvolvido pela Cambrussi Technologies
+  </footer>
+
+  <script type="module" src="./js/dispositivos.js"></script>
 </body>
 </html>

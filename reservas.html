@@ -1,74 +1,65 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta charset="utf-8">
   <title>Reservas • Colégio Estadual Padre Ponciano</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="./css/cambrussi.css">
 </head>
 <body>
-  <header class="header">
-    <div class="head-wrap">
-      <div class="brand-side">
-        <div class="logo"><img src="./assets/logo-colegio.svg" alt="Logo"></div>
-        <div class="titles">
-          <div class="brand-title">Colégio Estadual Padre Ponciano</div>
-          <div class="brand-sub">Sistema desenvolvido pela Cambrussi Technologies • Dados sincronizados na nuvem (Firebase Firestore)</div>
-        </div>
-      </div>
-      <div class="userbox" id="userbox"></div>
+  <header class="topo">
+    <img src="./img/logo.png" alt="Logo do colégio" class="logo">
+    <div>
+      <h1>Colégio Estadual Padre Ponciano</h1>
+      <p>Sistema desenvolvido pela Cambrussi Technologies • Dados sincronizados na nuvem (Firebase Firestore)</p>
     </div>
-    <nav class="navbar">
-      <a href="./index.html">Início</a>
-      <a href="./reservas.html" aria-current="page">Reservas</a>
-      <a href="./dispositivos.html">Dispositivos</a>
-      <a href="./relatorios.html">Relatórios</a>
-      <a href="./cadastros.html" class="only-admin">Cadastros</a>
-      <a href="./admin.html">Admin</a><a href="./admin-users.html">Administradores</a><a href="./tutorial.html">Tutorial</a>
-    </nav>
   </header>
 
-  <main class="main container">
-    <section class="card">
-      <div class="grid cols-3">
-        <div>
-          <label>Data</label>
-          <input id="dia" class="input" type="date">
-        </div>
-        <div>
-          <label>Tipo de dispositivo</label>
-          <select id="tipoSel" class="input"></select>
-        </div>
-        <div style="align-self:end">
-          <button id="btnAtualizar" class="btn">Atualizar</button>
-        </div>
+  <nav class="menu">
+    <a href="index.html">Início</a>
+    <a href="reservas.html" class="ativo">Reservas</a>
+    <a href="dispositivos.html">Dispositivos</a>
+    <a href="cadastros.html">Cadastros</a>
+    <a href="tutorial.html">Tutorial</a>
+    <a href="login.html" class="direita">Login</a>
+  </nav>
+
+  <main class="conteudo">
+    <h2>Reservas</h2>
+
+    <section class="filtros">
+      <div class="campo">
+        <label for="data">Data</label>
+        <input type="date" id="data">
       </div>
+
+      <div class="campo">
+        <label for="tipoDispositivo">Tipo de dispositivo</label>
+        <select id="tipoDispositivo">
+          <option value="chromebook">Chromebook</option>
+          <option value="tablet">Tablet</option>
+        </select>
+      </div>
+
+      <button id="btnAtualizarGrid">Atualizar</button>
     </section>
 
-    <section class="card">
-      <h2>Horários</h2>
-      <p class="muted" id="turmaInfo"></p>
-      <p class="muted">Dica: selecione o tipo e toque no horário. O sistema escolhe automaticamente a melhor unidade disponível.</p>
-      <div id="grid" class="grid-horarios"></div>
+    <section>
+      <h3>Horários</h3>
+      <p class="dica">Selecione o tipo e toque no horário. O sistema escolhe automaticamente a melhor unidade disponível.</p>
+      <div id="gridHorarios" class="grid-horarios"></div>
     </section>
 
-    <section class="card">
-      <h2>Minhas reservas do dia</h2>
-      <table class="table" id="tbl"></table>
+    <section>
+      <h3>Minhas reservas do dia</h3>
+      <ul id="listaMinhasReservas"></ul>
     </section>
   </main>
 
-  <footer class="footer">
-    <small>© <span id="y"></span> Colégio Estadual Padre Ponciano • Sistema desenvolvido pela Cambrussi Technologies</small>
-    <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
+  <footer class="rodape">
+    © Colégio Estadual Padre Ponciano • Sistema desenvolvido pela Cambrussi Technologies
   </footer>
 
-  <div class="toast-wrap" id="toasts"></div>
-
-  <script type="module">
-    import { setupShell } from "./js/ui-shell.js";
-    import { requireAuth } from "./js/auth.js";
-    requireAuth(); setupShell();
-  </script>
-  <script type="module" src="./js/app-reservas-por-tipo.js"></script>
+  <script type="module" src="./js/reservas.js"></script>
 </body>
 </html>
