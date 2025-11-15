@@ -13,7 +13,7 @@
       <div class="logo"><img src="./assets/logo-colegio.svg" alt="Logo"></div>
       <div class="titles">
         <div class="brand-title">Colégio Estadual Padre Ponciano</div>
-        <div class="brand-sub">Sistema desenvolvido pela Cambrussi Technologies</div>
+        <div class="brand-sub">Sistema desenvolvido pela Cambrussi Technologies • Dados sincronizados na nuvem (Firebase Firestore)</div>
       </div>
     </div>
     <div class="userbox" id="userbox"></div><div class="userbox"><button id="darkToggle" class="btn ghost" style="padding:6px 10px">🌙</button></div>
@@ -53,7 +53,15 @@
       <p class="tip">Clique no botão para um tour simples pelos elementos principais.</p>
       <button id="tour" class="btn">Iniciar tour</button>
     </section>
-  </main>
+    <section class="card">
+      <h2>Tecnologia</h2>
+      <p>Este sistema sincroniza os dados de reservas e dispositivos com um banco de dados na nuvem.</p>
+      <div style="display:flex;align-items:center;gap:0.75rem;margin-top:0.5rem;flex-wrap:wrap">
+        <img src="./assets/firebase-firestore-badge.svg" alt="Badge Firebase Firestore" style="height:32px">
+        <span class="muted">Camada de persistência local no navegador + snapshot na nuvem via <b>Firebase Firestore</b>.</span>
+      </div>
+    </section>
+  </main
   
 <footer class="footer">
   <small>© <span id="y"></span> Colégio Estadual Padre Ponciano • Sistema desenvolvido pela Cambrussi Technologies</small>

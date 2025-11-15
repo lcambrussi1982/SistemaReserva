@@ -1,3 +1,6 @@
+import { db as cloudDb } from "./app-module.js";
+import { doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
 
 // Core (client-side demo) com conflitos professor/turma e utilidades
 const clone = (o) => JSON.parse(JSON.stringify(o));
@@ -48,7 +51,24 @@ function createStore(){
   let db = null;
   try{ db = JSON.parse(localStorage.getItem(KEY)); }catch{}
   if(!db) db = clone(seed);
-  const save = ()=> localStorage.setItem(KEY, JSON.stringify(db));
+  async function syncToCloud(){
+    try{
+      if(!cloudDb) return;
+      await setDoc(
+        doc(cloudDb, "sre_snapshots", "default"),
+        { db, updatedAt: serverTimestamp() },
+        { merge: true }
+      );
+    }catch(e){
+      console.warn("[Cambrussi] Falha ao sincronizar com Firestore:", e);
+    }
+  }
+
+  const save = ()=> {
+    localStorage.setItem(KEY, JSON.stringify(db));
+    // sincroniza snapshot com Firestore (best-effort, não bloqueante)
+    syncToCloud();
+  };
   const ensure = (t) => { if(!db[t]) throw new Error(`Tabela '${t}' não existe.`); };
 
   function log(usuario, acao, tabela, referenciaId, meta=null){
