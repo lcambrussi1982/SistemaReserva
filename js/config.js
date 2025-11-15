@@ -1,4 +1,3 @@
-// js/seed-completo.js
 import {
   db,
   doc,

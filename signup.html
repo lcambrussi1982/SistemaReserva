@@ -1,0 +1,17 @@
+<form id="signup-form">
+  <input type="text" id="nome" placeholder="Nome completo" required>
+  <input type="email" id="email" placeholder="E-mail institucional" required>
+  <input type="password" id="senha" placeholder="Senha" required>
+
+  <label>Turmas que leciona</label>
+  <select id="turmas-select" multiple required></select>
+
+  <label>Disciplinas</label>
+  <select id="disciplinas-select" multiple required></select>
+
+  <button type="submit">Criar cadastro</button>
+</form>
+
+<div id="signup-msg"></div>
+
+<script type="module" src="./js/signup.js"></script>
