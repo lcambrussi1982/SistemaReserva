@@ -1,37 +1,16 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
-  <title>index • Colégio Estadual Padre Ponciano</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="./css/cambrussi.css">
+  <meta charset="UTF-8">
+  <title>Seed Completo - Cambrussi Reserva</title>
 </head>
 <body>
-  <header class="topo">
-    <img src="./img/logo.png" alt="Logo do colégio" class="logo">
-    <div>
-      <h1>Colégio Estadual Padre Ponciano</h1>
-      <p>Sistema desenvolvido pela Cambrussi Technologies • Dados sincronizados na nuvem (Firebase Firestore)</p>
-    </div>
-  </header>
+  <h1>Seed Completo - Turmas, Disciplinas, Dispositivos, Horários</h1>
 
-  <nav class="menu">
-    <a href="index.html" class="ativo">Início</a>
-    <a href="reservas.html">Reservas</a>
-    <a href="dispositivos.html">Dispositivos</a>
-    <a href="cadastros.html">Cadastros</a>
-    <a href="tutorial.html">Tutorial</a>
-    <a href="login.html" class="direita">Login</a>
-  </nav>
+  <button id="btn-seed">Rodar seed completo</button>
+  <pre id="log"></pre>
 
-  <main class="conteudo">
-    <h2>Bem-vindo</h2>
-    <p>Use o menu acima. Dica: vá em <strong>Reservas</strong> para o grid semanal.</p>
-    <p>Este pacote foi limpo e organizado para funcionar com Firebase Firestore, mantendo apenas o essencial.</p>
-  </main>
-
-  <footer class="rodape">
-    © Colégio Estadual Padre Ponciano • Sistema desenvolvido pela Cambrussi Technologies
-  </footer>
+  <!-- usa a mesma config Firebase do sistema -->
+  <script type="module" src="./js/seed-completo.js"></script>
 </body>
 </html>
