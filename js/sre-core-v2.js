@@ -17,7 +17,7 @@ const seed = {
   dispositivos: [
     { id:"dev1", tipo:"Tablet", marca:"Samsung", modelo:"Galaxy Tab A8", numeroSerie:"TAB001", status:"disponível", ultimaManutencao:"2025-10-20", localizacao:"Laboratório 1" },
     { id:"dev2", tipo:"Tablet", marca:"Lenovo",  modelo:"Tab M10",       numeroSerie:"TAB002", status:"disponível", ultimaManutencao:"2025-10-10", localizacao:"Laboratório 2" },
-    { id:"dev3", tipo:"Chromebook", marca:"Dell",   modelo:"Inspiron 14",   numeroSerie:"NB001", status:"disponível", ultimaManutencao:"2025-09-28", localizacao:"Laboratório 3" },
+    { id:"dev3", tipo:"Notebook", marca:"Dell",   modelo:"Inspiron 14",   numeroSerie:"NB001", status:"disponível", ultimaManutencao:"2025-09-28", localizacao:"Laboratório 3" },
   ],
   turmas: [
     { id:"t1", nome:"1ºA", serie:"1º Ano", turno:"Manhã" },

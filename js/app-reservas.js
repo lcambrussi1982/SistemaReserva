@@ -21,7 +21,6 @@ function renderGrid(){
   const base = baseInput.value ? new Date(baseInput.value) : new Date();
   const monday = mondayOf(base);
 
-
   grid.innerHTML="";
   for(let i=0;i<5;i++){ // segunda a sexta
     const day = new Date(monday.getTime()+i*oneDay);
@@ -29,43 +28,19 @@ function renderGrid(){
     const col = document.createElement("div"); col.className="slot";
     col.innerHTML = `<h4>${data}</h4>`;
     s.aulas.forEach(a=>{
-      const todosDisp = store.disponibilidadeDispositivos(data, a.id).filter(d=>{
+      const disp = store.disponibilidadeDispositivos(data, a.id).filter(d=>{
         const okTipo = !fTipo.value || d.tipo===fTipo.value;
         const okLoc = !fLoc.value || d.localizacao===fLoc.value;
         return okTipo && okLoc && d.disponivelNoSlot;
       });
-      const tablets = todosDisp.filter(d => d.tipo === "Tablet");
-      const chromes = todosDisp.filter(d => d.tipo === "Chromebook");
-      const tipos = [...new Set(todosDisp.map(d => d.tipo))];
-
       const selId=`sel-${data}-${a.id}`;
-      const qtdId=`qtd-${data}-${a.id}`;
-
-      col.innerHTML += `${(()=>{
-        const rs=s.reservas.filter(x=>x.data===data && x.aulaId===a.id);
-        if(!rs.length) return "";
-        const txt = rs.map(r=>{
-          const p = s.professores.find(pp=>pp.id===r.professorId);
-          const dev = s.dispositivos.find(dd=>dd.id===r.dispositivoId);
-          return (p?.nome||"—")+" ("+(dev?.tipo||"?")+")";
-        }).join("<br>");
-        return `<div class=\"tip\" style=\"margin-top:6px\"><b>Ocupado por:</b><br>${txt}</div>`;
-      })()}
+      col.innerHTML += `${(()=>{ const rs=s.reservas.filter(x=>x.data===data && x.aulaId===a.id && x.status==='ativa'); if(!rs.length) return ''; const txt=rs.map(R=>{ const P=s.professores.find(p=>p.id===R.professorId)?.nome||'—'; const T=s.turmas.find(t=>t.id===R.turmaId)?.nome||'—'; const D=s.dispositivos.find(d=>d.id===R.dispositivoId)?.modelo||'—'; return P+' ('+T+') • '+D; }).join('<br>'); return `<div class=\"tip\" style=\"margin-top:6px\"><b>Ocupado por:</b><br>${txt}</div>`; })()}
         <div style="margin-top:8px;border-top:1px dashed var(--border);padding-top:8px">
-          <div class="muted">${a.inicio}–${a.fim} • Tablets: ${tablets.length} • Chromebooks: ${chromes.length}</div>
-          <div class="grid cols-2" style="align-items:end;gap:6px">
-            <div>
-              <label style="font-size:11px">Tipo</label>
-              <select class="input" id="${selId}">
-                ${tipos.map(t=>`<option value="${t}">${t}</option>`).join("")}
-              </select>
-            </div>
-            <div>
-              <label style="font-size:11px">Qtde</label>
-              <input class="input" id="${qtdId}" type="number" min="1" value="1">
-            </div>
-          </div>
-          <button class="btn" data-data="${data}" data-aula="${a.id}" data-sel="${selId}" data-qtd="${qtdId}" ${todosDisp.length? "":"disabled"}>Reservar</button>
+          <div class="muted">${a.inicio}–${a.fim} • ${disp.length} disp.</div>
+          <select class="input" id="${selId}">
+            ${disp.map(d=>`<option value="${d.id}">${d.tipo} • ${d.modelo} (${d.localizacao})</option>`).join("")}
+          </select>
+          <button class="btn" data-data="${data}" data-aula="${a.id}" data-sel="${selId}" ${disp.length? "":"disabled"}>Reservar</button>
         </div>
       `;
     });
@@ -75,43 +50,14 @@ function renderGrid(){
   grid.querySelectorAll("button.btn").forEach(b=>{
     b.onclick=()=>{
       const data=b.dataset.data; const aulaId=b.dataset.aula;
-      const sel = document.getElementById(b.dataset.sel);
-      const qtdEl = document.getElementById(b.dataset.qtd);
-      if(!sel) return;
-      const tipoEscolhido = sel.value;
-      let qtd = parseInt(qtdEl?.value||"1",10);
-      if(!Number.isFinite(qtd) || qtd<=0) qtd=1;
-
+      const devId=document.getElementById(b.dataset.sel).value;
       const s=store.snapshot();
+      // pega primeira turma e disciplina do professor (se existirem)
       const prof=s.professores.find(p=>p.id===u.id);
       const turmaId=(prof?.turmas?.[0]) || (s.turmas[0]?.id);
       const discId=(prof?.disciplinas?.[0]) || (s.disciplinas[0]?.id);
-
-      const disponiveisTipo = store.disponibilidadeDispositivos(data, aulaId)
-        .filter(d=>d.tipo===tipoEscolhido && d.disponivelNoSlot);
-
-      if(!disponiveisTipo.length){
-        alert("Nenhum dispositivo desse tipo disponível neste horário.");
-        return;
-      }
-      if(qtd > disponiveisTipo.length){
-        alert(`Só há ${disponiveisTipo.length} ${tipoEscolhido}(s) disponíveis neste horário.`);
-        return;
-      }
-
       try{
-        for(let i=0;i<qtd;i++){
-          const dev = disponiveisTipo[i];
-          store.crud.create("reservas",{
-            professorId:u.id,
-            dispositivoId:dev.id,
-            aulaId,
-            turmaId,
-            disciplinaId:discId,
-            data,
-            status:"ativa"
-          },"ui");
-        }
+        store.crud.create("reservas",{professorId:u.id,dispositivoId:devId,aulaId,turmaId,disciplinaId:discId,data,status:"ativa"},"ui");
         renderGrid(); renderTable();
       }catch(e){ alert(e.message); }
     };

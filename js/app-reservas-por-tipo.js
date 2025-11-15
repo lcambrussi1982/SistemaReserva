@@ -11,7 +11,6 @@ const grid=$("#grid");
 const tbl=$("#tbl");
 const tipoSel=$("#tipoSel");
 const dia=$("#dia");
-const qtdGlobal=document.getElementById("qtd");
 const toasts=$("#toasts");
 
 function toast(msg, ok=true){
@@ -36,6 +35,19 @@ function livresPorTipo(data, aulaId, tipo){
   const disponiveis = store.disponibilidadeDispositivos(data, aulaId)
     .filter(d=>d.tipo===tipo && d.status==="disponível" && d.disponivelNoSlot);
   return disponiveis;
+}
+
+
+
+function turmaAtualLabel(){
+  const s = store.snapshot();
+  if(!u){ return "Usuário não identificado."; }
+  const prof = s.professores.find(p=>p.id===u.id);
+  if(!prof || !prof.turmas || !prof.turmas.length){
+    return "Sem turma vinculada (cadastre a turma do professor em Cadastros > Professores).";
+  }
+  const turma = s.turmas.find(t=>t.id===prof.turmas[0]);
+  return turma ? `Reservando para a turma: ${turma.nome}` : "Turma vinculada não encontrada no cadastro.";
 }
 
 function renderGrid(){
@@ -67,28 +79,20 @@ function renderGrid(){
     if(btnR){
       btnR.onclick=()=>{
         try{
-          let qtd = parseInt((qtdGlobal && qtdGlobal.value) || "1",10);
-          if(!Number.isFinite(qtd) || qtd<=0) qtd = 1;
           const lista = livresPorTipo(data, btnR.dataset.reservar, tipo);
           const smart = smartPickDevice(tipo, data, btnR.dataset.reservar);
           if(smart){ lista.sort((a,b)=> (a.id===smart.id?-1: b.id===smart.id?1:0)); }
           if(!lista.length) { toast("Nenhum dispositivo do tipo disponível.", false); return; }
-          if(qtd > lista.length){
-            toast(`Só há ${lista.length} ${tipo}(s) disponíveis neste horário.`, false);
-            return;
-          }
+          const escolhido = lista[0]; // auto-atribuição simples
           const prof=s.professores.find(p=>p.id===u.id);
           const turmaId=(prof?.turmas?.[0]) || (s.turmas[0]?.id);
           const discId=(prof?.disciplinas?.[0]) || (s.disciplinas[0]?.id);
-          for(let i=0;i<qtd;i++){
-            const escolhido = lista[i];
-            store.crud.create("reservas",{
-              professorId:u.id,
-              dispositivoId:escolhido.id,
-              aulaId:btnR.dataset.reservar,
-              turmaId,disciplinaId:discId,data,status:"ativa"
-            },"ui");
-          }
+          store.crud.create("reservas",{
+            professorId:u.id,
+            dispositivoId:escolhido.id,
+            aulaId:btnR.dataset.reservar,
+            turmaId,disciplinaId:discId,data,status:"ativa"
+          },"ui");
           toast("Reserva confirmada!");
           renderGrid(); renderTable();
         }catch(e){ toast(e.message,false); }
@@ -121,6 +125,7 @@ function init(){
   const today = new Date().toISOString().slice(0,10);
   dia.value = today;
   fillTipos();
+  const info=document.getElementById('turmaInfo'); if(info) info.textContent=turmaAtualLabel();
   renderGrid();
   renderTable();
 }
