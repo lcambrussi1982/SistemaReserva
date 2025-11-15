@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Dispositivos • Colégio Estadual Padre Ponciano</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./css/cambrussi.css">
+</head>
+<body>
+  <header class="topo">
+    <img src="./img/logo.png" alt="Logo do colégio" class="logo">
+    <div>
+      <h1>Colégio Estadual Padre Ponciano</h1>
+      <p>Sistema desenvolvido pela Cambrussi Technologies • Dados sincronizados na nuvem (Firebase Firestore)</p>
+    </div>
+  </header>
+
+  <nav class="menu">
+    <a href="index.html">Início</a>
+    <a href="reservas.html">Reservas</a>
+    <a href="dispositivos.html" class="ativo">Dispositivos</a>
+    <a href="cadastros.html">Cadastros</a>
+    <a href="tutorial.html">Tutorial</a>
+    <a href="login.html" class="direita">Login</a>
+  </nav>
+
+  <main class="conteudo">
+    <h2>Inventário de dispositivos</h2>
+    <p class="dica">Os valores abaixo vêm diretamente da coleção <code>dispositivos</code> do Firestore.</p>
+
+    <table class="tabela" id="tabelaDispositivos">
+      <thead>
+        <tr>
+          <th>Tipo</th>
+          <th>Total</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- preenchido via JS -->
+      </tbody>
+    </table>
+  </main>
+
+  <footer class="rodape">
+    © Colégio Estadual Padre Ponciano • Sistema desenvolvido pela Cambrussi Technologies
+  </footer>
+
+  <script type="module" src="./js/dispositivos.js"></script>
+</body>
+</html>
