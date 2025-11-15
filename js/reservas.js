@@ -19,7 +19,7 @@ const btnAtualizarGrid = document.getElementById("btnAtualizarGrid");
 const gridHorarios = document.getElementById("gridHorarios");
 const listaMinhasReservas = document.getElementById("listaMinhasReservas");
 
-// HORÁRIOS FIXOS (Ensino Médio manhã)
+// Horários fixos da manhã
 const TIME_SLOTS = [
   { id: 1, label: "07:00 – 07:50", inicio: "07:00", fim: "07:50" },
   { id: 2, label: "07:50 – 08:40", inicio: "07:50", fim: "08:40" },
@@ -31,13 +31,13 @@ const TIME_SLOTS = [
 ];
 
 let currentUser = null;     // usuário do Auth
-let currentUserDoc = null;  // dados de "usuarios"
+let currentUserDoc = null;  // dados em "usuarios"
 
-// 1) Coloca hoje como data padrão
+// coloca hoje como data padrão
 const hoje = new Date();
 dataInput.value = hoje.toISOString().substring(0, 10);
 
-// 2) Garante que está logado e puxa dados do professor
+// garante login e carrega dados do professor
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
     window.location.href = "login.html";
@@ -46,15 +46,13 @@ onAuthStateChanged(auth, async (user) => {
 
   currentUser = user;
 
-  // pega dados extras do Firestore (nome, etc.)
   const snap = await getDoc(doc(db, "usuarios", user.uid));
   if (!snap.exists()) {
-    alert("Usuário não encontrado na coleção 'usuarios'. Fale com o administrador.");
+    alert("Usuário não encontrado em 'usuarios'. Fale com o administrador.");
     return;
   }
   currentUserDoc = snap.data();
 
-  // assim que logar, carrega a grade do dia atual
   await atualizarTudo();
 });
 
@@ -62,13 +60,12 @@ btnAtualizarGrid.addEventListener("click", atualizarTudo);
 tipoDispositivoSelect.addEventListener("change", atualizarTudo);
 dataInput.addEventListener("change", atualizarTudo);
 
-// 3) Função principal: recarrega grade + lista "Minhas reservas"
+// recarrega grade + lista "Minhas reservas"
 async function atualizarTudo() {
   if (!currentUser) return;
 
   const dataStr = dataInput.value;
   const tipoDispositivo = tipoDispositivoSelect.value;
-
   if (!dataStr) return;
 
   const reservasDoDia = await buscarReservasDoDia(dataStr, tipoDispositivo);
@@ -77,7 +74,7 @@ async function atualizarTudo() {
   desenharMinhasReservas(reservasDoDia);
 }
 
-// 4) Busca reservas do dia no Firestore
+// busca reservas do dia + tipo de dispositivo
 async function buscarReservasDoDia(dataStr, tipoDispositivo) {
   const q = query(
     collection(db, "reservas"),
@@ -86,8 +83,8 @@ async function buscarReservasDoDia(dataStr, tipoDispositivo) {
   );
 
   const snap = await getDocs(q);
-
   const reservas = [];
+
   snap.forEach((docSnap) => {
     reservas.push({
       id: docSnap.id,
@@ -98,14 +95,13 @@ async function buscarReservasDoDia(dataStr, tipoDispositivo) {
   return reservas;
 }
 
-// 5) Monta a grade de horários no DIV #gridHorarios
+// monta o grid na DIV gridHorarios
 function desenharGrid(dataStr, tipoDispositivo, reservas) {
   gridHorarios.innerHTML = "";
 
-  // cria um mapa: chave = slotId -> reserva
+  // mapa: slotId -> reserva
   const reservasMap = {};
   for (const r of reservas) {
-    // se no futuro tiver mais de uma reserva por slot (quantidade), dá pra virar array
     reservasMap[r.slotId] = r;
   }
 
@@ -115,9 +111,8 @@ function desenharGrid(dataStr, tipoDispositivo, reservas) {
 
     const reserva = reservasMap[slot.id];
 
-    // 🔴 AQUI ENTRA A LÓGICA QUE VOCÊ PERGUNTOU:
     if (reserva) {
-      // ocupado
+      // OCUPADO
       slotDiv.classList.add("ocupado");
       slotDiv.innerHTML = `
         <div class="hora">${slot.label}</div>
@@ -127,15 +122,14 @@ function desenharGrid(dataStr, tipoDispositivo, reservas) {
         </div>
       `;
 
-      // se a reserva é deste professor, permite cancelar
+      // se for reserva do professor logado, deixa cancelar
       if (reserva.professorId === currentUser.uid) {
         const btn = document.createElement("button");
         btn.textContent = "Cancelar";
         btn.classList.add("btn-cancelar");
         btn.addEventListener("click", async (e) => {
           e.stopPropagation();
-          const confirma = confirm("Cancelar esta reserva?");
-          if (!confirma) return;
+          if (!confirm("Cancelar esta reserva?")) return;
 
           await deleteDoc(doc(db, "reservas", reserva.id));
           await atualizarTudo();
@@ -143,13 +137,11 @@ function desenharGrid(dataStr, tipoDispositivo, reservas) {
         slotDiv.appendChild(btn);
       }
     } else {
-      // livre
+      // LIVRE
       slotDiv.classList.add("livre");
       slotDiv.innerHTML = `
         <div class="hora">${slot.label}</div>
-        <div class="info">
-          <em>Disponível</em>
-        </div>
+        <div class="info"><em>Disponível</em></div>
       `;
 
       // clique para reservar
@@ -162,7 +154,7 @@ function desenharGrid(dataStr, tipoDispositivo, reservas) {
   });
 }
 
-// 6) Lista "Minhas reservas do dia"
+// lista "Minhas reservas do dia"
 function desenharMinhasReservas(reservas) {
   listaMinhasReservas.innerHTML = "";
 
@@ -184,23 +176,19 @@ function desenharMinhasReservas(reservas) {
   });
 }
 
-// 7) Criação da reserva (pede turma e disciplina por prompt simples)
-// Depois você pode trocar por selects bonitos.
+// cria uma reserva (por enquanto usando prompt, depois dá pra trocar por select)
 async function criarReserva(dataStr, tipoDispositivo, slot) {
   if (!currentUser || !currentUserDoc) {
     alert("Usuário não carregado. Tente novamente.");
     return;
   }
 
-  // Aqui, para simplificar, vamos pedir os códigos por prompt:
-  // Exemplo: 1A, 2B, 3C... / MAT, LP, BIO...
   const turmaId = prompt("Informe o ID da turma (ex: 1A, 2B, 3C):");
   if (!turmaId) return;
 
   const disciplinaId = prompt("Informe o ID da disciplina (ex: MAT, LP, BIO):");
   if (!disciplinaId) return;
 
-  // Buscar nomes no Firestore
   const turmaSnap = await getDoc(doc(db, "turmas", turmaId));
   const discSnap = await getDoc(doc(db, "disciplinas", disciplinaId));
 
