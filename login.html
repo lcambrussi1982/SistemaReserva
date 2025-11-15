@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Login • Colégio Estadual Padre Ponciano</title>
+  <link rel="stylesheet" href="./css/cambrussi.css">
+</head>
+<body>
+  <header class="header">
+    <div class="head-wrap">
+      <div class="brand-side">
+        <div class="logo"><img src="./assets/logo-colegio.svg" alt="Logo"></div>
+        <div class="titles">
+          <div class="brand-title">Colégio Estadual Padre Ponciano</div>
+          <div class="brand-sub">Sistema desenvolvido pela Cambrussi Technologies</div>
+        </div>
+      </div>
+      <div class="userbox" id="userbox"></div>
+    </div>
+    <nav class="navbar">
+      <a href="./index.html">Início</a>
+      <a href="./reservas.html">Reservas</a>
+      <a href="./dispositivos.html">Dispositivos</a>
+      <a href="./relatorios.html">Relatórios</a>
+      <a href="./cadastros.html" class="only-admin">Cadastros</a>
+      <a href="./admin-users.html">Administradores</a><a href="./tutorial.html">Tutorial</a>
+    </nav>
+  </header>
+
+  <main class="main container">
+    <section class="card auth-card">
+      <h2 class="center">Entrar</h2>
+      <div class="grid cols-1">
+        <label>E-mail</label>
+        <input id="lEmail" class="input" type="email" placeholder="ex: maria@escola.com">
+        <label>Senha</label>
+        <input id="lSenha" class="input" type="password" placeholder="sua senha">
+      </div>
+      <div class="center" style="margin-top:12px">
+        <button id="btnLogin" class="btn">Acessar</button>
+      </div>
+      <div id="lMsg" class="center" style="color:var(--err);margin-top:10px"></div>
+      <div class="center" style="margin-top:12px">
+        <a class="btn ghost" href="./signup.html" target="_blank" rel="noopener">Cadastrar Professor (abre em nova aba)</a>
+        <div class="tip">Cadastro permitido apenas para e-mails <b>@escola.pr.gov.br</b></div>
+      </div>
+      <div class="center" style="margin-top:14px">
+        <img src="./assets/logo-cambrussi.svg" alt="Cambrussi Technologies" style="max-width:200px;opacity:.9"/>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <small>© <span id="y"></span> Colégio Estadual Padre Ponciano • Sistema desenvolvido pela Cambrussi Technologies</small>
+    <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
+  </footer>
+
+  <script type="module" src="./js/app-login.js"></script>
+</body>
+</html>

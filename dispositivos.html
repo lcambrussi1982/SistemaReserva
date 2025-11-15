@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>index • Colégio Estadual Padre Ponciano</title>
+  <title>dispositivos • Colégio Estadual Padre Ponciano</title>
   <link rel="stylesheet" href="./css/cambrussi.css">
 </head>
 <body>
@@ -19,9 +19,9 @@
     <div class="userbox" id="userbox"></div><div class="userbox"><button id="darkToggle" class="btn ghost" style="padding:6px 10px">🌙</button></div>
   </div>
   <nav class="navbar">
-    <a href='./index.html' aria-current="page">Início</a>
+    <a href='./index.html' >Início</a>
     <a href='./reservas.html' >Reservas</a>
-    <a href='./dispositivos.html' >Dispositivos</a>
+    <a href='./dispositivos.html' aria-current="page">Dispositivos</a>
     <a href='./relatorios.html' >Relatórios</a>
     <a href='./cadastros.html' class='only-admin' >Cadastros</a>
     <a href='./tutorial.html' >Tutorial</a>
@@ -30,9 +30,8 @@
 
   <main class="main container">
 <section class="card">
-  <h2>Bem-vindo 👋</h2><p class="muted">Use o menu acima. Dica: vá em <b>Reservas</b> para o grid semanal.</p>
-  <p>Acesse <b>Reservas</b> para o grid semanal, ou <b>Tutorial</b> para o passo a passo.</p>
-  <div class="grid cols-3" id="cards"></div>
+  <h2>Inventário</h2>
+  <table class="table" id="tdevs"></table>
 </section>
 </main>
   
@@ -46,7 +45,7 @@
     import { requireAuth } from "./js/auth.js";
     requireAuth(); setupShell();
   </script>
-  <script type="module" src="./js/app-home.js"></script>
+  <script type="module" src="./js/app-dispositivos.js"></script>
 
   <script>
     // redireciona admin de primeiro acesso para configurar e-mail/senha

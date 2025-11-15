@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>index • Colégio Estadual Padre Ponciano</title>
+  <title>relatorios • Colégio Estadual Padre Ponciano</title>
   <link rel="stylesheet" href="./css/cambrussi.css">
 </head>
 <body>
@@ -19,10 +19,10 @@
     <div class="userbox" id="userbox"></div><div class="userbox"><button id="darkToggle" class="btn ghost" style="padding:6px 10px">🌙</button></div>
   </div>
   <nav class="navbar">
-    <a href='./index.html' aria-current="page">Início</a>
+    <a href='./index.html' >Início</a>
     <a href='./reservas.html' >Reservas</a>
     <a href='./dispositivos.html' >Dispositivos</a>
-    <a href='./relatorios.html' >Relatórios</a>
+    <a href='./relatorios.html' aria-current="page">Relatórios</a>
     <a href='./cadastros.html' class='only-admin' >Cadastros</a>
     <a href='./tutorial.html' >Tutorial</a>
     </nav>
@@ -30,10 +30,19 @@
 
   <main class="main container">
 <section class="card">
-  <h2>Bem-vindo 👋</h2><p class="muted">Use o menu acima. Dica: vá em <b>Reservas</b> para o grid semanal.</p>
-  <p>Acesse <b>Reservas</b> para o grid semanal, ou <b>Tutorial</b> para o passo a passo.</p>
-  <div class="grid cols-3" id="cards"></div>
+  <h2>Relatórios</h2>
+  <div class="grid cols-3">
+    <div><label>De</label><input id="de" class="input" type="date"></div>
+    <div><label>Até</label><input id="ate" class="input" type="date"></div>
+    <div style="align-self:end"><button id="btn" class="btn">Gerar</button></div>
+  </div>
+  <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px">
+    <button id="csv" class="btn ghost">Exportar PDF</button>
+    <button id="backup" class="btn ghost only-admin">Backup JSON</button>
+    <label class="btn ghost only-admin" style="cursor:pointer">Restaurar JSON<input id="restore" type="file" accept=".json" style="display:none"></label>
+  </div>
 </section>
+<section class="card" id="saida"></section>
 </main>
   
 <footer class="footer">
@@ -46,7 +55,7 @@
     import { requireAuth } from "./js/auth.js";
     requireAuth(); setupShell();
   </script>
-  <script type="module" src="./js/app-home.js"></script>
+  <script type="module" src="./js/app-relatorios.js"></script>
 
   <script>
     // redireciona admin de primeiro acesso para configurar e-mail/senha

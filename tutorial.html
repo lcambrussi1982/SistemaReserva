@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>index • Colégio Estadual Padre Ponciano</title>
+  <title>Tutorial • Colégio Estadual Padre Ponciano</title>
   <link rel="stylesheet" href="./css/cambrussi.css">
 </head>
 <body>
@@ -19,34 +19,48 @@
     <div class="userbox" id="userbox"></div><div class="userbox"><button id="darkToggle" class="btn ghost" style="padding:6px 10px">🌙</button></div>
   </div>
   <nav class="navbar">
-    <a href='./index.html' aria-current="page">Início</a>
+    <a href='./index.html' >Início</a>
     <a href='./reservas.html' >Reservas</a>
     <a href='./dispositivos.html' >Dispositivos</a>
     <a href='./relatorios.html' >Relatórios</a>
     <a href='./cadastros.html' class='only-admin' >Cadastros</a>
-    <a href='./tutorial.html' >Tutorial</a>
+    <a href='./tutorial.html' aria-current="page">Tutorial</a>
     </nav>
 </header>
 
   <main class="main container">
-<section class="card">
-  <h2>Bem-vindo 👋</h2><p class="muted">Use o menu acima. Dica: vá em <b>Reservas</b> para o grid semanal.</p>
-  <p>Acesse <b>Reservas</b> para o grid semanal, ou <b>Tutorial</b> para o passo a passo.</p>
-  <div class="grid cols-3" id="cards"></div>
-</section>
-</main>
+    <section class="card">
+      <h2>Tutorial (Professores)</h2>
+      <ol>
+        <li>Acesse <b>Login</b> e clique em <b>Cadastrar Professor</b>.</li>
+        <li>Informe <b>nome, e-mail, senha</b>, selecione <b>disciplinas</b> e <b>turmas</b>.</li>
+        <li>Você será redirecionado para <b>Reservas</b> com o <b>grid semanal</b>.</li>
+        <li>Escolha o horário e um dispositivo disponível e clique <b>Reservar</b>.</li>
+        <li>Use <b>Exportar CSV/ICS</b> para baixar suas reservas da semana.</li>
+      </ol>
+    </section>
+    <section class="card">
+      <h2>Tutorial (Administradores)</h2>
+      <ol>
+        <li>Faça login com sua conta de administrador.</li>
+        <li>Abra <b>Cadastros</b> para gerenciar professores e dispositivos.</li>
+        <li>Em <b>Relatórios</b>, gere CSV e faça <b>Backup/Restore</b> do banco.</li>
+        <li>Funcionalidades administrativas não aparecem para professores.</li>
+      </ol>
+    </section>
+    <section class="card">
+      <h2>Tour rápido</h2>
+      <p class="tip">Clique no botão para um tour simples pelos elementos principais.</p>
+      <button id="tour" class="btn">Iniciar tour</button>
+    </section>
+  </main>
   
 <footer class="footer">
   <small>© <span id="y"></span> Colégio Estadual Padre Ponciano • Sistema desenvolvido pela Cambrussi Technologies</small>
   <script>document.getElementById('y').textContent=new Date().getFullYear()</script>
 </footer>
 
-  <script type="module">
-    import { setupShell } from "./js/ui-shell.js";
-    import { requireAuth } from "./js/auth.js";
-    requireAuth(); setupShell();
-  </script>
-  <script type="module" src="./js/app-home.js"></script>
+  <script type="module" src="./js/app-tutorial.js"></script>
 
   <script>
     // redireciona admin de primeiro acesso para configurar e-mail/senha
