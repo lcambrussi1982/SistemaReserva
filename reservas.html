@@ -1,68 +1,219 @@
-<!doctype html>
-<html lang="pt-BR">
-<head>
-  <meta charset="utf-8">
-  <title>Reservas • Colégio Estadual Padre Ponciano</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="./css/cambrussi.css">
-</head>
-<body>
-  <header class="topo">
-    <img src="./img/logo.png" alt="Logo do colégio" class="logo">
-    <div>
-      <h1>Colégio Estadual Padre Ponciano</h1>
-      <p>Sistema desenvolvido pela Cambrussi Technologies • Dados sincronizados na nuvem (Firebase Firestore)</p>
-    </div>
-  </header>
+// js/cadastros.js
 
-  <nav class="menu">
-    <a href="index.html">Início</a>
-    <a href="reservas.html" class="ativo">Reservas</a>
-    <a href="dispositivos.html">Dispositivos</a>
-    <a href="cadastros.html">Cadastros</a>
-    <a href="tutorial.html">Tutorial</a>
-    <a href="login.html" class="direita">Login</a>
-  </nav>
+// IMPORTS DO FIREBASE (SDK MODULAR VIA CDN)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { 
+  getAuth, 
+  onAuthStateChanged 
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { 
+  getFirestore, 
+  collection, 
+  addDoc, 
+  getDocs, 
+  doc, 
+  getDoc, 
+  query, 
+  orderBy 
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-  <main class="conteudo">
-    <h2>Reservas</h2>
+// 🔧 COLE AQUI O MESMO firebaseConfig QUE VOCÊ USA NO login.js / reservas.js
+const firebaseConfig = {
+  // apiKey: "...",
+  // authDomain: "...",
+  // projectId: "...",
+  // ...
+};
 
-    <section class="filtros">
-      <div class="campo">
-        <label for="data">Data</label>
-        <input type="date" id="data">
-      </div>
+const app  = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getFirestore(app);
 
-      <div class="campo">
-        <label for="tipoDispositivo">Tipo de dispositivo</label>
-        <select id="tipoDispositivo">
-          <option value="chromebook">Chromebook</option>
-          <option value="tablet">Tablet</option>
-        </select>
-      </div>
+// ELEMENTOS DA TELA
+const formUsuario   = document.getElementById('formUsuario');
+const formTurma     = document.getElementById('formTurma');
+const tbodyUsuarios = document.getElementById('tbodyUsuarios');
+const tbodyTurmas   = document.getElementById('tbodyTurmas');
 
-      <button id="btnAtualizarGrid">Atualizar</button>
-    </section>
+// GARANTE QUE SÓ ADMIN ENTRA NESSA TELA
+onAuthStateChanged(auth, async (user) => {
+  if (!user) {
+    alert('Você precisa estar logado para acessar os cadastros.');
+    window.location.href = 'login.html';
+    return;
+  }
 
-    <section>
-      <h3>Horários</h3>
-      <p class="dica">
-        Selecione o tipo e toque no horário. O sistema controla a quantidade de unidades
-        e mostra quais turmas/professores já reservaram.
-      </p>
-      <div id="gridHorarios" class="grid-horarios"></div>
-    </section>
+  try {
+    const refUsuario = doc(db, 'usuarios', user.uid);
+    const snapUsuario = await getDoc(refUsuario);
 
-    <section>
-      <h3>Minhas reservas do dia</h3>
-      <ul id="listaMinhasReservas"></ul>
-    </section>
-  </main>
+    if (!snapUsuario.exists()) {
+      alert('Seu usuário não possui perfil definido. Fale com o administrador.');
+      window.location.href = 'reservas.html';
+      return;
+    }
 
-  <footer class="rodape">
-    © Colégio Estadual Padre Ponciano • Sistema desenvolvido pela Cambrussi Technologies
-  </footer>
+    const dados = snapUsuario.data();
+    // ⚠️ AQUI EU ASSUMO QUE VOCÊ TEM UM CAMPO "tipo" = "admin" | "professor"
+    if (dados.tipo !== 'admin') {
+      alert('Apenas administradores podem acessar esta área.');
+      window.location.href = 'reservas.html';
+      return;
+    }
 
-  <script type="module" src="./js/reservas.js"></script>
-</body>
-</html>
+    // SE CHEGOU AQUI, É ADMIN 👍
+    inicializarCadastros();
+
+  } catch (err) {
+    console.error('Erro ao verificar perfil de usuário:', err);
+    alert('Erro ao verificar permissões. Tente novamente.');
+    window.location.href = 'login.html';
+  }
+});
+
+// INICIALIZA EVENTOS E CARREGA LISTAS
+function inicializarCadastros() {
+  if (formUsuario) {
+    formUsuario.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await salvarUsuario();
+    });
+  }
+
+  if (formTurma) {
+    formTurma.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await salvarTurma();
+    });
+  }
+
+  carregarUsuarios();
+  carregarTurmas();
+}
+
+// --- USUÁRIOS ---
+
+async function salvarUsuario() {
+  const nome  = document.getElementById('nomeUsuario').value.trim();
+  const email = document.getElementById('emailUsuario').value.trim();
+  const tipo  = document.getElementById('tipoUsuario').value;
+  const turma = document.getElementById('turmaUsuario').value.trim();
+
+  if (!nome || !email || !tipo || !turma) {
+    alert('Preencha todos os campos do usuário.');
+    return;
+  }
+
+  try {
+    await addDoc(collection(db, 'usuarios'), {
+      nome,
+      email,
+      tipo,
+      turma,
+      criadoEm: new Date()
+    });
+
+    alert('Usuário salvo com sucesso!');
+    formUsuario.reset();
+    carregarUsuarios();
+
+  } catch (err) {
+    console.error('Erro ao salvar usuário:', err);
+    alert('Erro ao salvar usuário. Veja o console para detalhes.');
+  }
+}
+
+async function carregarUsuarios() {
+  tbodyUsuarios.innerHTML = '<tr><td colspan="4">Carregando...</td></tr>';
+
+  try {
+    const q = query(collection(db, 'usuarios'), orderBy('nome'));
+    const snap = await getDocs(q);
+
+    if (snap.empty) {
+      tbodyUsuarios.innerHTML = '<tr><td colspan="4">Nenhum usuário cadastrado.</td></tr>';
+      return;
+    }
+
+    let html = '';
+    snap.forEach(docSnap => {
+      const u = docSnap.data();
+      html += `
+        <tr>
+          <td>${u.nome || ''}</td>
+          <td>${u.email || ''}</td>
+          <td>${u.tipo || ''}</td>
+          <td>${u.turma || ''}</td>
+        </tr>
+      `;
+    });
+
+    tbodyUsuarios.innerHTML = html;
+
+  } catch (err) {
+    console.error('Erro ao carregar usuários:', err);
+    tbodyUsuarios.innerHTML = '<tr><td colspan="4">Erro ao carregar usuários.</td></tr>';
+  }
+}
+
+// --- TURMAS ---
+
+async function salvarTurma() {
+  const nome  = document.getElementById('nomeTurma').value.trim();
+  const serie = document.getElementById('serieTurma').value.trim();
+  const turno = document.getElementById('turnoTurma').value;
+
+  if (!nome || !serie || !turno) {
+    alert('Preencha todos os campos da turma.');
+    return;
+  }
+
+  try {
+    await addDoc(collection(db, 'turmas'), {
+      nome,
+      serie,
+      turno,
+      criadoEm: new Date()
+    });
+
+    alert('Turma salva com sucesso!');
+    formTurma.reset();
+    carregarTurmas();
+
+  } catch (err) {
+    console.error('Erro ao salvar turma:', err);
+    alert('Erro ao salvar turma. Veja o console para detalhes.');
+  }
+}
+
+async function carregarTurmas() {
+  tbodyTurmas.innerHTML = '<tr><td colspan="3">Carregando...</td></tr>';
+
+  try {
+    const q = query(collection(db, 'turmas'), orderBy('nome'));
+    const snap = await getDocs(q);
+
+    if (snap.empty) {
+      tbodyTurmas.innerHTML = '<tr><td colspan="3">Nenhuma turma cadastrada.</td></tr>';
+      return;
+    }
+
+    let html = '';
+    snap.forEach(docSnap => {
+      const t = docSnap.data();
+      html += `
+        <tr>
+          <td>${t.nome || ''}</td>
+          <td>${t.serie || ''}</td>
+          <td>${t.turno || ''}</td>
+        </tr>
+      `;
+    });
+
+    tbodyTurmas.innerHTML = html;
+
+  } catch (err) {
+    console.error('Erro ao carregar turmas:', err);
+    tbodyTurmas.innerHTML = '<tr><td colspan="3">Erro ao carregar turmas.</td></tr>';
+  }
+}

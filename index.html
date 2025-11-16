@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <title>Reservas • Colégio Estadual Padre Ponciano</title>
+  <title>Cadastros • Colégio Estadual Padre Ponciano</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="./css/cambrussi.css">
 </head>
@@ -17,45 +17,116 @@
 
   <nav class="menu">
     <a href="index.html">Início</a>
-    <a href="reservas.html" class="ativo">Reservas</a>
+    <a href="reservas.html">Reservas</a>
     <a href="dispositivos.html">Dispositivos</a>
-    <a href="cadastros.html">Cadastros</a>
+
+    <!-- DROPDOWN CADASTROS -->
+    <div class="menu-dropdown">
+      <a href="cadastros.html" class="ativo">Cadastros ▾</a>
+      <div class="menu-dropdown-content">
+        <a href="#usuarios">Usuários</a>
+        <a href="#turmas">Turmas</a>
+      </div>
+    </div>
+
     <a href="tutorial.html">Tutorial</a>
     <a href="login.html" class="direita">Login</a>
   </nav>
 
   <main class="conteudo">
-    <h2>Reservas</h2>
+    <h2>Cadastros (Admin)</h2>
+    <p>Área reservada para administradores. Aqui você pode cadastrar usuários e turmas.</p>
+    <p><strong>Obs.:</strong> apenas usuários com <code>tipo = "admin"</code> podem acessar esta tela.</p>
 
-    <section class="filtros">
-      <div class="campo">
-        <label for="data">Data</label>
-        <input type="date" id="data">
-      </div>
+    <!-- USUÁRIOS -->
+    <section id="usuarios">
+      <h3>Cadastro de usuários</h3>
 
-      <div class="campo">
-        <label for="tipoDispositivo">Tipo de dispositivo</label>
-        <select id="tipoDispositivo">
-          <option value="chromebook">Chromebook</option>
-          <option value="tablet">Tablet</option>
-        </select>
-      </div>
+      <form id="formUsuario" class="form-cadastro">
+        <div class="campo">
+          <label for="nomeUsuario">Nome</label>
+          <input type="text" id="nomeUsuario" required>
+        </div>
 
-      <button id="btnAtualizarGrid">Atualizar</button>
+        <div class="campo">
+          <label for="emailUsuario">E-mail (o mesmo do login)</label>
+          <input type="email" id="emailUsuario" required>
+        </div>
+
+        <div class="campo">
+          <label for="tipoUsuario">Tipo</label>
+          <select id="tipoUsuario" required>
+            <option value="professor">Professor</option>
+            <option value="admin">Administrador</option>
+          </select>
+        </div>
+
+        <div class="campo">
+          <label for="turmaUsuario">Turma (texto livre, ex.: 8º A)</label>
+          <input type="text" id="turmaUsuario" placeholder="Ex.: 8º A" required>
+        </div>
+
+        <button type="submit">Salvar usuário</button>
+      </form>
+
+      <h4>Usuários cadastrados</h4>
+      <table class="tabela-lista">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>Tipo</th>
+            <th>Turma</th>
+          </tr>
+        </thead>
+        <tbody id="tbodyUsuarios">
+          <!-- preenchido via JS -->
+        </tbody>
+      </table>
     </section>
 
-    <section>
-      <h3>Horários</h3>
-      <p class="dica">
-        Selecione o tipo e toque no horário. O sistema controla a quantidade de unidades
-        e mostra quais turmas/professores já reservaram.
-      </p>
-      <div id="gridHorarios" class="grid-horarios"></div>
-    </section>
+    <hr>
 
-    <section>
-      <h3>Minhas reservas do dia</h3>
-      <ul id="listaMinhasReservas"></ul>
+    <!-- TURMAS -->
+    <section id="turmas">
+      <h3>Cadastro de turmas</h3>
+
+      <form id="formTurma" class="form-cadastro">
+        <div class="campo">
+          <label for="nomeTurma">Nome da turma</label>
+          <input type="text" id="nomeTurma" placeholder="Ex.: 8º A" required>
+        </div>
+
+        <div class="campo">
+          <label for="serieTurma">Série/Ano</label>
+          <input type="text" id="serieTurma" placeholder="Ex.: 8º ano" required>
+        </div>
+
+        <div class="campo">
+          <label for="turnoTurma">Turno</label>
+          <select id="turnoTurma" required>
+            <option value="manhã">Manhã</option>
+            <option value="tarde">Tarde</option>
+            <option value="noite">Noite</option>
+          </select>
+        </div>
+
+        <button type="submit">Salvar turma</button>
+      </form>
+
+      <h4>Turmas cadastradas</h4>
+      <table class="tabela-lista">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Série</th>
+            <th>Turno</th>
+          </tr>
+        </thead>
+        <tbody id="tbodyTurmas">
+          <!-- preenchido via JS -->
+        </tbody>
+      </table>
     </section>
   </main>
 
@@ -63,6 +134,7 @@
     © Colégio Estadual Padre Ponciano • Sistema desenvolvido pela Cambrussi Technologies
   </footer>
 
-  <script type="module" src="./js/reservas.js"></script>
+  <!-- JS DE CADASTROS -->
+  <script type="module" src="./js/cadastros.js"></script>
 </body>
 </html>
