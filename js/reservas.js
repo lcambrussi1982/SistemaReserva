@@ -1,4 +1,5 @@
-// js/reservas.js - versão com quantidade por horário e lista de professores/turmas
+// js/reservas.js - quantidade por horário + turma/professor/disciplina
+
 import {
   auth,
   db,
@@ -33,19 +34,21 @@ const TIME_SLOTS = [
 let currentUser = null;     // usuário do Auth
 let currentUserDoc = null;  // dados em "usuarios"
 
-// coloca hoje como data padrão
+// =============== DATA INICIAL ===============
 const hoje = new Date();
 dataInput.value = hoje.toISOString().substring(0, 10);
 
-// garante login e carrega dados do professor
+// =============== LOGIN / USUÁRIO ===============
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
+    // se não estiver logado, volta pro login
     window.location.href = "login.html";
     return;
   }
 
   currentUser = user;
 
+  // busca dados complementares em "usuarios/<uid>"
   const snap = await getDoc(doc(db, "usuarios", user.uid));
   if (!snap.exists()) {
     alert("Usuário não encontrado em 'usuarios'. Fale com o administrador.");
@@ -60,7 +63,7 @@ btnAtualizarGrid.addEventListener("click", atualizarTudo);
 tipoDispositivoSelect.addEventListener("change", atualizarTudo);
 dataInput.addEventListener("change", atualizarTudo);
 
-// recarrega grade + lista "Minhas reservas"
+// =============== FLUXO PRINCIPAL ===============
 async function atualizarTudo() {
   if (!currentUser) return;
 
@@ -68,10 +71,10 @@ async function atualizarTudo() {
   const tipoDispositivo = tipoDispositivoSelect.value;
   if (!dataStr) return;
 
-  // busca reservas do dia para o tipo selecionado
+  // Reservas do dia para o dispositivo selecionado
   const reservasDoDia = await buscarReservasDoDia(dataStr, tipoDispositivo);
 
-  // busca o TOTAL de unidades desse dispositivo (chromebook/tablet)
+  // Total de unidades do dispositivo (chromebook/tablet)
   const dispSnap = await getDoc(doc(db, "dispositivos", tipoDispositivo));
   const totalUnidades = dispSnap.exists() ? (dispSnap.data().total || 0) : 0;
 
@@ -79,7 +82,7 @@ async function atualizarTudo() {
   desenharMinhasReservas(reservasDoDia);
 }
 
-// busca reservas do dia + tipo de dispositivo
+// =============== FIRESTORE: BUSCA RESERVAS ===============
 async function buscarReservasDoDia(dataStr, tipoDispositivo) {
   const q = query(
     collection(db, "reservas"),
@@ -100,17 +103,18 @@ async function buscarReservasDoDia(dataStr, tipoDispositivo) {
   return reservas;
 }
 
-// monta o grid na DIV gridHorarios
+// =============== GRID DE HORÁRIOS ===============
 function desenharGrid(dataStr, tipoDispositivo, reservas, totalUnidades) {
   gridHorarios.innerHTML = "";
 
-  // mapa: slotId -> array de reservas (pode ter várias no mesmo horário)
+  // mapa: slotId -> array de reservas (várias turmas no mesmo horário)
   const reservasPorSlot = {};
   for (const r of reservas) {
-    if (!reservasPorSlot[r.slotId]) {
-      reservasPorSlot[r.slotId] = [];
+    const key = Number(r.slotId); // garante número
+    if (!reservasPorSlot[key]) {
+      reservasPorSlot[key] = [];
     }
-    reservasPorSlot[r.slotId].push(r);
+    reservasPorSlot[key].push(r);
   }
 
   TIME_SLOTS.forEach((slot) => {
@@ -120,25 +124,30 @@ function desenharGrid(dataStr, tipoDispositivo, reservas, totalUnidades) {
     const reservasSlot = reservasPorSlot[slot.id] || [];
     const usados = reservasSlot.length;
 
+    // monta a listinha: "1º A - Matemática (Prof. Fulano)"
     const resumoProfessores = reservasSlot
-      .map((r) => `${r.turmaNome} (${r.professorNome})`)
+      .map((r) =>
+        `${r.turmaNome} - ${r.disciplinaNome} (Prof. ${r.professorNome})`
+      )
       .join("<br>");
 
-    const cabecalho = `
+    slotDiv.innerHTML = `
       <div class="hora">${slot.label}</div>
       <div class="info">
         <strong>${usados} / ${totalUnidades || "-"} reservas</strong><br>
-        ${usados > 0 ? resumoProfessores : "<em>Nenhuma reserva ainda</em>"}
+        ${
+          usados > 0
+            ? resumoProfessores
+            : "<em>Nenhuma reserva ainda neste horário</em>"
+        }
       </div>
     `;
 
-    slotDiv.innerHTML = cabecalho;
-
     if (totalUnidades > 0 && usados >= totalUnidades) {
-      // lotado
+      // LOTADO
       slotDiv.classList.add("ocupado");
     } else {
-      // ainda tem unidade disponível
+      // Ainda tem unidade disponível
       slotDiv.classList.add("livre");
       slotDiv.addEventListener("click", () => {
         criarReserva(dataStr, tipoDispositivo, slot, totalUnidades);
@@ -149,7 +158,7 @@ function desenharGrid(dataStr, tipoDispositivo, reservas, totalUnidades) {
   });
 }
 
-// lista "Minhas reservas do dia"
+// =============== MINHAS RESERVAS DO DIA ===============
 function desenharMinhasReservas(reservas) {
   listaMinhasReservas.innerHTML = "";
 
@@ -162,11 +171,14 @@ function desenharMinhasReservas(reservas) {
     return;
   }
 
-  minhas.sort((a, b) => a.slotId - b.slotId);
+  minhas.sort((a, b) => Number(a.slotId) - Number(b.slotId));
 
   minhas.forEach((r) => {
     const li = document.createElement("li");
-    li.textContent = `${r.slotLabel} - ${r.turmaNome} (${r.disciplinaNome}) - ${r.dispositivoId}`;
+    li.innerHTML = `
+      <strong>${r.slotLabel}</strong> - ${r.turmaNome} - ${r.disciplinaNome}
+      (${r.dispositivoId})
+    `;
 
     const btn = document.createElement("button");
     btn.textContent = "Cancelar";
@@ -182,14 +194,15 @@ function desenharMinhasReservas(reservas) {
   });
 }
 
-// cria uma reserva (por enquanto usando prompt, depois dá pra trocar por select)
+// =============== CRIAR RESERVA ===============
+// (por enquanto usando prompt para turma/disciplinas)
 async function criarReserva(dataStr, tipoDispositivo, slot, totalUnidades) {
   if (!currentUser || !currentUserDoc) {
     alert("Usuário não carregado. Tente novamente.");
     return;
   }
 
-  // Confere se ainda há unidades disponíveis neste horário antes de perguntar turma/disciplina
+  // Confere se ainda há unidades disponíveis neste horário
   const q = query(
     collection(db, "reservas"),
     where("data", "==", dataStr),
@@ -229,7 +242,7 @@ async function criarReserva(dataStr, tipoDispositivo, slot, totalUnidades) {
   await addDoc(collection(db, "reservas"), {
     data: dataStr,
     diaSemana: new Date(dataStr).getDay(),
-    slotId: slot.id,
+    slotId: slot.id,                 // número 1..6
     slotLabel: slot.label,
     dispositivoId: tipoDispositivo,
 
@@ -244,11 +257,5 @@ async function criarReserva(dataStr, tipoDispositivo, slot, totalUnidades) {
     createdAt: new Date().toISOString(),
   });
 
-  await atualizarTudo();
-}
-
-// opcional: função exportada para uso futuro (se precisar cancelar por ID em outra tela)
-export async function cancelarReserva(reservaId) {
-  await deleteDoc(doc(db, "reservas", reservaId));
   await atualizarTudo();
 }
