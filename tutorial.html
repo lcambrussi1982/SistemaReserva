@@ -1,0 +1,56 @@
+    <!doctype html>
+    <html lang="pt-BR">
+    <head>
+      <meta charset="utf-8">
+      <title>Tutorial • Colégio Estadual Padre Ponciano</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="./css/cambrussi.css">
+    </head>
+    <body>
+      <header class="topo">
+        <img src="./img/logo.png" alt="Logo do colégio" class="logo">
+        <div>
+          <h1>Colégio Estadual Padre Ponciano</h1>
+          <p>Sistema de Reserva de Dispositivos • Desenvolvido por Cambrussi Technologies</p>
+        </div>
+      </header>
+
+      <nav class="menu">
+        <a href="dashboard.html" data-page="dashboard">Dashboard</a>
+        <a href="reservas.html" data-page="reservas">Reservas</a>
+        <a href="cadastros.html" data-page="cadastros">Cadastros</a>
+        <a href="dispositivos.html" data-page="dispositivos">Dispositivos</a>
+        <a href="tutorial.html" data-page="tutorial">Tutorial</a>
+        <a href="usuario.html" data-page="usuario">Meu usuário</a>
+        <button id="btn-sair" class="btn-sair">Sair</button>
+      </nav>
+
+      <main class="conteudo">
+    <section class="card glass">
+  <h2>Tutorial rápido</h2>
+  <ol class="passos">
+    <li>Solicite seu cadastro na tela de <strong>Primeiro acesso</strong> (menu Login &gt; Solicitar cadastro).</li>
+    <li>Após aprovação, faça login com e-mail institucional e senha definida.</li>
+    <li>Use o menu <strong>Reservas</strong> para escolher data, horário e dispositivo.</li>
+    <li>Confirme a reserva e acompanhe em <strong>Dashboard</strong>.</li>
+  </ol>
+</section>
+
+<section class="card glass mt">
+  <h2>Seed de dados (opcional para testes)</h2>
+  <p class="muted">Opcionalmente, você pode popular o sistema com turmas, disciplinas e horários padrões.</p>
+  <button id="btn-seed" class="btn secundario">Rodar seed de exemplo</button>
+  <pre id="log" class="log-seed"></pre>
+</section>
+
+      </main>
+
+      <footer class="rodape">
+        © Colégio Estadual Padre Ponciano • Cambrussi Technologies
+      </footer>
+
+      <script src="./js/app-shell.js"></script>
+      <script src="./js/auth.js"></script>
+  <script src="./js/seed-completo.js"></script>
+    </body>
+    </html>

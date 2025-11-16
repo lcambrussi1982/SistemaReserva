@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Primeiro acesso • Sistema de Reservas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./css/cambrussi.css">
+</head>
+<body class="pagina-login">
+  <main class="login-wrapper">
+    <section class="login-card glass">
+      <header class="login-header">
+        <img src="./img/logo.png" alt="Logo do colégio" class="logo">
+        <div>
+          <h1>Primeiro acesso</h1>
+          <p>Cadastro de professor(a)</p>
+        </div>
+      </header>
+
+      <form id="signup-form" class="form-grid">
+        <label>
+          Nome completo
+          <input type="text" id="signup-nome" required>
+        </label>
+
+        <label>
+          E-mail institucional
+          <input type="email" id="signup-email" required>
+        </label>
+
+        <label>
+          Senha
+          <input type="password" id="signup-senha" required>
+        </label>
+
+        <label>
+          Turmas em que leciona
+          <select id="turmas-select" multiple size="4">
+            <!-- preenchido via JS futuramente -->
+          </select>
+        </label>
+
+        <label>
+          Disciplinas
+          <select id="disciplinas-select" multiple size="4">
+            <!-- preenchido via JS futuramente -->
+          </select>
+        </label>
+
+        <button type="submit" class="btn primario btn-full">Cadastrar</button>
+      </form>
+
+      <p id="signup-msg" class="msg"></p>
+
+      <p class="login-extra">
+        Já tem conta?
+        <a href="index.html">Voltar para login</a>
+      </p>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    © Colégio Estadual Padre Ponciano • Cambrussi Technologies
+  </footer>
+
+  <script src="./js/auth.js"></script>
+  <script src="./js/signup.js"></script>
+</body>
+</html>

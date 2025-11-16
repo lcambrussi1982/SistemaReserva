@@ -1,0 +1,93 @@
+    <!doctype html>
+    <html lang="pt-BR">
+    <head>
+      <meta charset="utf-8">
+      <title>Reservas • Colégio Estadual Padre Ponciano</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="./css/cambrussi.css">
+    </head>
+    <body>
+      <header class="topo">
+        <img src="./img/logo.png" alt="Logo do colégio" class="logo">
+        <div>
+          <h1>Colégio Estadual Padre Ponciano</h1>
+          <p>Sistema de Reserva de Dispositivos • Desenvolvido por Cambrussi Technologies</p>
+        </div>
+      </header>
+
+      <nav class="menu">
+        <a href="dashboard.html" data-page="dashboard">Dashboard</a>
+        <a href="reservas.html" data-page="reservas">Reservas</a>
+        <a href="cadastros.html" data-page="cadastros">Cadastros</a>
+        <a href="dispositivos.html" data-page="dispositivos">Dispositivos</a>
+        <a href="tutorial.html" data-page="tutorial">Tutorial</a>
+        <a href="usuario.html" data-page="usuario">Meu usuário</a>
+        <button id="btn-sair" class="btn-sair">Sair</button>
+      </nav>
+
+      <main class="conteudo">
+    <section class="card glass">
+  <h2>Nova reserva</h2>
+  <form id="form-reserva" class="form-grid form-reserva">
+    <label>
+      Data
+      <input type="date" id="data" required>
+    </label>
+
+    <label>
+      Tipo de dispositivo
+      <select id="tipoDispositivo" required>
+        <option value="">Selecione...</option>
+        <option value="CHROMEBOOK">Chromebooks</option>
+        <option value="LABINFO">Laboratório de Informática</option>
+        <option value="TABLET">Tablets</option>
+        <option value="OUTRO">Outro</option>
+      </select>
+    </label>
+
+    <label>
+      Turma
+      <input type="text" id="turma" placeholder="Ex.: 1º A" required>
+    </label>
+
+    <label>
+      Disciplina
+      <input type="text" id="disciplina" placeholder="Ex.: Matemática" required>
+    </label>
+
+    <label>
+      Professor
+      <input type="text" id="professor" placeholder="Seu nome" required>
+    </label>
+
+    <button type="button" id="btnAtualizarGrid" class="btn primario">
+      Ver horários e disponibilidade
+    </button>
+  </form>
+</section>
+
+<section class="card glass mt">
+  <h2>Horários do dia</h2>
+  <div id="gridHorarios" class="grid-horarios">
+    <!-- preenchido via JS -->
+  </div>
+</section>
+
+<section class="card glass mt">
+  <h2>Minhas reservas no dia</h2>
+  <ul id="listaMinhasReservas" class="lista-reservas">
+    <!-- preenchido via JS -->
+  </ul>
+</section>
+
+      </main>
+
+      <footer class="rodape">
+        © Colégio Estadual Padre Ponciano • Cambrussi Technologies
+      </footer>
+
+      <script src="./js/app-shell.js"></script>
+      <script src="./js/auth.js"></script>
+  <script src="./js/reservas.js"></script>
+    </body>
+    </html>

@@ -1,0 +1,203 @@
+    <!doctype html>
+    <html lang="pt-BR">
+    <head>
+      <meta charset="utf-8">
+      <title>Cadastros • Colégio Estadual Padre Ponciano</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="./css/cambrussi.css">
+    </head>
+    <body>
+      <header class="topo">
+        <img src="./img/logo.png" alt="Logo do colégio" class="logo">
+        <div>
+          <h1>Colégio Estadual Padre Ponciano</h1>
+          <p>Sistema de Reserva de Dispositivos • Desenvolvido por Cambrussi Technologies</p>
+        </div>
+      </header>
+
+      <nav class="menu">
+        <a href="dashboard.html" data-page="dashboard">Dashboard</a>
+        <a href="reservas.html" data-page="reservas">Reservas</a>
+        <a href="cadastros.html" data-page="cadastros">Cadastros</a>
+        <a href="dispositivos.html" data-page="dispositivos">Dispositivos</a>
+        <a href="tutorial.html" data-page="tutorial">Tutorial</a>
+        <a href="usuario.html" data-page="usuario">Meu usuário</a>
+        <button id="btn-sair" class="btn-sair">Sair</button>
+      </nav>
+
+      <main class="conteudo">
+    <section class="card glass">
+  <h2>Cadastros básicos</h2>
+  <p class="muted">Estrutura organizada em abas. Em breve pode ser ligada ao Firestore ou outra API.</p>
+
+  <div class="tabs">
+    <button class="tab-link ativo" data-tab="tab-turmas">Turmas</button>
+    <button class="tab-link" data-tab="tab-disciplinas">Disciplinas</button>
+    <button class="tab-link" data-tab="tab-professores">Professores</button>
+    <button class="tab-link" data-tab="tab-salas">Salas/Ambientes</button>
+    <button class="tab-link" data-tab="tab-tipos">Tipos de dispositivo</button>
+  </div>
+
+  <div class="tabs-conteudo">
+    <div id="tab-turmas" class="tab-pane ativo">
+      <form id="form-turma" class="form-grid">
+        <label>
+          Código
+          <input type="text" id="turma-codigo" placeholder="1A" required>
+        </label>
+        <label>
+          Nome
+          <input type="text" id="turma-nome" placeholder="1º A" required>
+        </label>
+        <label>
+          Turno
+          <select id="turma-turno">
+            <option value="MANHA">Manhã</option>
+            <option value="TARDE">Tarde</option>
+            <option value="NOITE">Noite</option>
+          </select>
+        </label>
+        <button type="submit" class="btn primario">Salvar</button>
+      </form>
+
+      <table class="tabela-responsiva mt">
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Nome</th>
+            <th>Turno</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="lista-turmas">
+        </tbody>
+      </table>
+    </div>
+
+    <div id="tab-disciplinas" class="tab-pane">
+      <form id="form-disciplina" class="form-grid">
+        <label>
+          Código
+          <input type="text" id="disciplina-codigo" placeholder="MAT" required>
+        </label>
+        <label>
+          Nome
+          <input type="text" id="disciplina-nome" placeholder="Matemática" required>
+        </label>
+        <button type="submit" class="btn primario">Salvar</button>
+      </form>
+
+      <table class="tabela-responsiva mt">
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Nome</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="lista-disciplinas">
+        </tbody>
+      </table>
+    </div>
+
+    <div id="tab-professores" class="tab-pane">
+      <form id="form-professor" class="form-grid">
+        <label>
+          Nome
+          <input type="text" id="prof-nome" required>
+        </label>
+        <label>
+          E-mail institucional
+          <input type="email" id="prof-email" required>
+        </label>
+        <label>
+          Disciplinas
+          <input type="text" id="prof-disciplinas" placeholder="Mat, Fis, Qui...">
+        </label>
+        <button type="submit" class="btn primario">Salvar</button>
+      </form>
+
+      <table class="tabela-responsiva mt">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>Disciplinas</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="lista-professores">
+        </tbody>
+      </table>
+    </div>
+
+    <div id="tab-salas" class="tab-pane">
+      <form id="form-sala" class="form-grid">
+        <label>
+          Código
+          <input type="text" id="sala-codigo" placeholder="LAB1" required>
+        </label>
+        <label>
+          Nome
+          <input type="text" id="sala-nome" placeholder="Laboratório 1" required>
+        </label>
+        <label>
+          Capacidade
+          <input type="number" id="sala-capacidade" min="0" value="35">
+        </label>
+        <button type="submit" class="btn primario">Salvar</button>
+      </form>
+
+      <table class="tabela-responsiva mt">
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Nome</th>
+            <th>Capacidade</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="lista-salas">
+        </tbody>
+      </table>
+    </div>
+
+    <div id="tab-tipos" class="tab-pane">
+      <form id="form-tipo" class="form-grid">
+        <label>
+          Código
+          <input type="text" id="tipo-codigo" placeholder="CHROMEBOOK" required>
+        </label>
+        <label>
+          Descrição
+          <input type="text" id="tipo-descricao" placeholder="Carrinho de Chromebooks">
+        </label>
+        <button type="submit" class="btn primario">Salvar</button>
+      </form>
+
+      <table class="tabela-responsiva mt">
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Descrição</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="lista-tipos">
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+      </main>
+
+      <footer class="rodape">
+        © Colégio Estadual Padre Ponciano • Cambrussi Technologies
+      </footer>
+
+      <script src="./js/app-shell.js"></script>
+      <script src="./js/auth.js"></script>
+  <script src="./js/cadastros.js"></script>
+    </body>
+    </html>

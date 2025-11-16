@@ -1,0 +1,84 @@
+    <!doctype html>
+    <html lang="pt-BR">
+    <head>
+      <meta charset="utf-8">
+      <title>Dashboard • Colégio Estadual Padre Ponciano</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="./css/cambrussi.css">
+    </head>
+    <body>
+      <header class="topo">
+        <img src="./img/logo.png" alt="Logo do colégio" class="logo">
+        <div>
+          <h1>Colégio Estadual Padre Ponciano</h1>
+          <p>Sistema de Reserva de Dispositivos • Desenvolvido por Cambrussi Technologies</p>
+        </div>
+      </header>
+
+      <nav class="menu">
+        <a href="dashboard.html" data-page="dashboard">Dashboard</a>
+        <a href="reservas.html" data-page="reservas">Reservas</a>
+        <a href="cadastros.html" data-page="cadastros">Cadastros</a>
+        <a href="dispositivos.html" data-page="dispositivos">Dispositivos</a>
+        <a href="tutorial.html" data-page="tutorial">Tutorial</a>
+        <a href="usuario.html" data-page="usuario">Meu usuário</a>
+        <button id="btn-sair" class="btn-sair">Sair</button>
+      </nav>
+
+      <main class="conteudo">
+    <section class="cards-grid">
+  <article class="card atalho">
+    <h2>Reservar dispositivos</h2>
+    <p>Crie novas reservas por data, horário, turma e tipo de dispositivo.</p>
+    <a href="reservas.html" class="btn primario">Ir para Reservas</a>
+  </article>
+
+  <article class="card atalho">
+    <h2>Cadastros básicos</h2>
+    <p>Turmas, disciplinas, professores, salas e tipos de dispositivos.</p>
+    <a href="cadastros.html" class="btn secundario">Abrir Cadastros</a>
+  </article>
+
+  <article class="card atalho">
+    <h2>Dispositivos</h2>
+    <p>Acompanhe situação dos carrinhos, laboratórios e kits.</p>
+    <a href="dispositivos.html" class="btn secundario">Ver Dispositivos</a>
+  </article>
+
+  <article class="card atalho">
+    <h2>Tutorial rápido</h2>
+    <p>Passo a passo para primeiros acessos e dúvidas frequentes.</p>
+    <a href="tutorial.html" class="btn texto">Abrir Tutorial</a>
+  </article>
+</section>
+
+<section class="card glass mt">
+  <h2>Minhas próximas reservas</h2>
+  <p class="muted">Em breve: listagem das reservas do usuário autenticado.</p>
+  <table class="tabela-responsiva">
+    <thead>
+      <tr>
+        <th>Data</th>
+        <th>Horário</th>
+        <th>Turma</th>
+        <th>Dispositivo</th>
+        <th>Situação</th>
+      </tr>
+    </thead>
+    <tbody id="tabela-proximas-reservas">
+      <!-- preenchido via JS futuramente -->
+    </tbody>
+  </table>
+</section>
+
+      </main>
+
+      <footer class="rodape">
+        © Colégio Estadual Padre Ponciano • Cambrussi Technologies
+      </footer>
+
+      <script src="./js/app-shell.js"></script>
+      <script src="./js/auth.js"></script>
+
+    </body>
+    </html>

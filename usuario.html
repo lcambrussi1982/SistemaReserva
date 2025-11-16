@@ -1,0 +1,59 @@
+    <!doctype html>
+    <html lang="pt-BR">
+    <head>
+      <meta charset="utf-8">
+      <title>Meu usuário • Colégio Estadual Padre Ponciano</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="stylesheet" href="./css/cambrussi.css">
+    </head>
+    <body>
+      <header class="topo">
+        <img src="./img/logo.png" alt="Logo do colégio" class="logo">
+        <div>
+          <h1>Colégio Estadual Padre Ponciano</h1>
+          <p>Sistema de Reserva de Dispositivos • Desenvolvido por Cambrussi Technologies</p>
+        </div>
+      </header>
+
+      <nav class="menu">
+        <a href="dashboard.html" data-page="dashboard">Dashboard</a>
+        <a href="reservas.html" data-page="reservas">Reservas</a>
+        <a href="cadastros.html" data-page="cadastros">Cadastros</a>
+        <a href="dispositivos.html" data-page="dispositivos">Dispositivos</a>
+        <a href="tutorial.html" data-page="tutorial">Tutorial</a>
+        <a href="usuario.html" data-page="usuario">Meu usuário</a>
+        <button id="btn-sair" class="btn-sair">Sair</button>
+      </nav>
+
+      <main class="conteudo">
+    <section class="card glass">
+  <h2>Meu usuário</h2>
+  <p class="muted">Informações básicas do usuário autenticado.</p>
+
+  <dl class="perfil">
+    <div>
+      <dt>Nome</dt>
+      <dd id="usuario-nome">—</dd>
+    </div>
+    <div>
+      <dt>E-mail</dt>
+      <dd id="usuario-email">—</dd>
+    </div>
+    <div>
+      <dt>Turmas / Disciplinas</dt>
+      <dd id="usuario-info-extra">—</dd>
+    </div>
+  </dl>
+</section>
+
+      </main>
+
+      <footer class="rodape">
+        © Colégio Estadual Padre Ponciano • Cambrussi Technologies
+      </footer>
+
+      <script src="./js/app-shell.js"></script>
+      <script src="./js/auth.js"></script>
+  <script src="./js/usuario.js"></script>
+    </body>
+    </html>

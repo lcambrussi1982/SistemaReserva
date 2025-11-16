@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <title>Login • Sistema de Reservas</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./css/cambrussi.css">
+</head>
+<body class="pagina-login">
+  <main class="login-wrapper">
+    <section class="login-card glass">
+      <header class="login-header">
+        <img src="./img/logo.png" alt="Logo do colégio" class="logo">
+        <div>
+          <h1>Sistema de Reservas</h1>
+          <p>Colégio Estadual Padre Ponciano</p>
+        </div>
+      </header>
+
+      <form id="login-form" class="form-grid">
+        <label>
+          E-mail institucional
+          <input type="email" id="login-email" required placeholder="professor@escola.pr.gov.br">
+        </label>
+
+        <label>
+          Senha
+          <input type="password" id="login-senha" required placeholder="••••••••">
+        </label>
+
+        <button type="submit" class="btn primario btn-full">Entrar</button>
+      </form>
+
+      <p class="login-extra">
+        Ainda não tem acesso?
+        <a href="signup.html">Solicitar cadastro</a>
+      </p>
+
+      <p id="login-msg" class="msg"></p>
+    </section>
+
+    <section class="login-side glass">
+      <h2>Sobre o sistema</h2>
+      <ul class="bullets">
+        <li>Reservas de Chromebooks, laboratório e outros dispositivos;</li>
+        <li>Controle por horário, turma, professor e disciplina;</li>
+        <li>Histórico de reservas e bloqueio de conflitos;</li>
+        <li>Interface responsiva e otimizada para celular.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="rodape">
+    © Colégio Estadual Padre Ponciano • Cambrussi Technologies
+  </footer>
+
+  <script src="./js/auth.js"></script>
+</body>
+</html>
